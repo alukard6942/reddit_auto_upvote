@@ -3,7 +3,7 @@ import praw
 import random
 import time 
 
-reddit = praw.Reddit('bot1', user_agent="bot1")
+reddit = praw.Reddit('bot2', user_agent="bot2")
 
 subreddit = reddit.subreddit("blowjob")
 repost = reddit.subreddit("blowjobs")
