@@ -2,7 +2,7 @@
 import praw
 import random
 
-reddit = praw.Reddit('bot1', user_agent="bot1")
+reddit = praw.Reddit('bot2', user_agent="bot2")
 
 subreddit = reddit.subreddit("nsfw")
 repost = reddit.subreddit("ass")
