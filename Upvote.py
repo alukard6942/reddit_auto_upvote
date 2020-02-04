@@ -9,25 +9,26 @@ from configparser import ConfigParser
 def main():
 	
 
-	is_shadow_baned("bot1")
+	#is_shadow_baned("bot1")
 
-	countdown(6*60)
+	#countdown(6*60)
 
-	# reddit = praw.Reddit('bot2', user_agent="bot2")
+	reddit = praw.Reddit('bot3', user_agent="bot3")
 
-	# subreddit = reddit.subreddit("JapaneseHotties")
-	# repost = reddit.subreddit("asianhotties")
+	subreddit = reddit.subreddit("JapaneseHotties")
+	repost = reddit.subreddit("asianhotties")
 
-	# i = 0
-	# #subreddit.submit("submission test", selftext = "hello world")
-	# for submission in subreddit.new(limit=100):
-	#     if (i > 13):
-	#     	countdown(60*10 + random.randint(100,500))
-	#         repost.submit(submission.title, url=submission.url)
-	#         print ("I JUST POSTED " + str(i) + ". POST: " + submission.title)
-	#     else:
-	# 	    pprint( ".",end='')
-	#     i += 1
+	i = 0
+	subreddit.submit("submission test", selftext = "hello world")
+
+	for submission in subreddit.new(limit=15):
+		if (i > 13):
+			repost.submit(submission.title, url=submission.url)
+			print (" [" + time.ctime(1545925769.9618232)+ "] post:" + str(i) + ". POST: " + submission.title)
+			countdown(60*10 + random.randint(100,500))
+		else:
+			print( ".",end='')
+		i += 1
 
 def countdown(t):
 	sys.stdout.write("[")
