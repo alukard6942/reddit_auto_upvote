@@ -1,0 +1,905 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"PayL",
+				"PayLodeLen"
+			],
+			[
+				"Payl",
+				"PayLoad"
+			],
+			[
+				"fizz",
+				"fizzbuzz"
+			],
+			[
+				"he",
+				"hexboard(…)\ttype ⟠"
+			],
+			[
+				"de",
+				"destroyWindow(…)\tfunction ⟠"
+			],
+			[
+				"w",
+				"waitKey(…)\tfunction ⟠"
+			],
+			[
+				"s",
+				"side\tsideBar ⟠"
+			],
+			[
+				"h",
+				"hexagon\ttype ⟠"
+			],
+			[
+				"co",
+				"colour\tlist ⟠"
+			],
+			[
+				"ro",
+				"rototin\tint | str ⟠"
+			],
+			[
+				"c",
+				"copy(…)\tfunction ⟠"
+			],
+			[
+				"des",
+				"destroyAllWindows()\tfunction ⟠"
+			],
+			[
+				"re",
+				"return\tkeyword ⟠"
+			],
+			[
+				"colour",
+				"setColour"
+			],
+			[
+				"colou",
+				"colour"
+			],
+			[
+				"hexL",
+				"hexListInit"
+			],
+			[
+				"positin",
+				"position"
+			],
+			[
+				"d",
+				"drawhex\tfunction ⟠"
+			],
+			[
+				"col",
+				"COLOR_RGB2GRAY\tint ⟠"
+			],
+			[
+				"num",
+				"numpy as np\tmodule ⟠"
+			],
+			[
+				"st",
+				"stdlib.h\tstandard header"
+			],
+			[
+				"pi",
+				"pixelY\tint ⟠"
+			],
+			[
+				"ma",
+				"Mandlebrod(…)\ttype ⟠"
+			],
+			[
+				"i",
+				"iNum\tfloat ⟠"
+			],
+			[
+				"y",
+				"y1\tfloat | int ⟠"
+			],
+			[
+				"p",
+				"pixelY\tint ⟠"
+			],
+			[
+				"bre",
+				"break\tkeyword ⟠"
+			],
+			[
+				"im",
+				"img\tdict | ndarray ⟠"
+			],
+			[
+				"pix",
+				"pixelX\tint ⟠"
+			],
+			[
+				"ar",
+				"argc"
+			],
+			[
+				"a",
+				"argv"
+			],
+			[
+				"I",
+				"IRITATION"
+			],
+			[
+				"A",
+				"ALOT"
+			],
+			[
+				"or",
+				"origii"
+			],
+			[
+				"Ve",
+				"VectorDstr"
+			],
+			[
+				"pri",
+				"printf\tprintf …"
+			],
+			[
+				"print",
+				"printf\tprintf …"
+			],
+			[
+				"ou",
+				"outC"
+			],
+			[
+				"out",
+				"outR"
+			],
+			[
+				"exi",
+				"exitFlag"
+			],
+			[
+				"V",
+				"Vector"
+			],
+			[
+				"e",
+				"exitC"
+			],
+			[
+				"ba",
+				"backTrace"
+			],
+			[
+				"Prin",
+				"printFlag"
+			],
+			[
+				"bu",
+				"bufferLen"
+			],
+			[
+				"Ma",
+				"MarkNode"
+			],
+			[
+				"U",
+				"USAGE"
+			],
+			[
+				"prin",
+				"printf\tprintf …"
+			],
+			[
+				"tr",
+				"tryToGo"
+			],
+			[
+				"ex",
+				"exitR"
+			],
+			[
+				"pn",
+				"pntOut"
+			],
+			[
+				"in",
+				"pntIn"
+			],
+			[
+				"pnt",
+				"pntOut"
+			],
+			[
+				"b",
+				"bufferInR"
+			],
+			[
+				"bufer",
+				"bufferInR"
+			],
+			[
+				"In",
+				"Invalid"
+			],
+			[
+				"te",
+				"testFlag"
+			],
+			[
+				"r",
+				"return"
+			],
+			[
+				"is",
+				"isborder"
+			],
+			[
+				"tes",
+				"testMap"
+			],
+			[
+				"row",
+				"rows"
+			],
+			[
+				"poi",
+				"point"
+			],
+			[
+				"lef",
+				"leftright"
+			],
+			[
+				"P",
+				"isPaht"
+			],
+			[
+				"le",
+				"leftdeep"
+			],
+			[
+				"pa",
+				"pathFlag"
+			],
+			[
+				"pritf",
+				"printf"
+			],
+			[
+				"prit",
+				"printf\tprintf …"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"hel",
+				"helpFlag"
+			],
+			[
+				"U_",
+				"U_0"
+			],
+			[
+				"E",
+				"EPS"
+			],
+			[
+				"R",
+				"RES"
+			],
+			[
+				"eps",
+				"EPS"
+			],
+			[
+				"str",
+				"string.h\tstandard header"
+			],
+			[
+				"UP",
+				"U_p"
+			],
+			[
+				"do",
+				"double"
+			],
+			[
+				"dif",
+				"diff2"
+			],
+			[
+				"u",
+				"u0"
+			],
+			[
+				"up",
+				"U_p"
+			],
+			[
+				"sr",
+				"strlen"
+			],
+			[
+				"nuber",
+				"numberLeng"
+			],
+			[
+				"name",
+				"nameLeng"
+			],
+			[
+				"ke",
+				"keyword"
+			],
+			[
+				"isC",
+				"isCunt"
+			],
+			[
+				"M",
+				"MAX_LINE_LENG"
+			],
+			[
+				"bou",
+				"boutyLen"
+			],
+			[
+				"sho",
+				"short"
+			],
+			[
+				"n",
+				"nameLen"
+			],
+			[
+				"bo",
+				"bouty"
+			],
+			[
+				"nu",
+				"number"
+			],
+			[
+				"con",
+				"isContained"
+			],
+			[
+				"to",
+				"toNum"
+			],
+			[
+				"hw",
+				"hw2"
+			],
+			[
+				"std",
+				"stdlib.h\tstandard header"
+			],
+			[
+				"confi",
+				"configparser"
+			],
+			[
+				"if",
+				"ifmain\tif __name__ == '__main__'"
+			],
+			[
+				"Log",
+				"LogAccessFiles12346"
+			],
+			[
+				"LO",
+				"LogAccessFiles12345"
+			],
+			[
+				"L",
+				"LogAccessFiles12345"
+			],
+			[
+				"ran",
+				"range\trange"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Reddit.py",
+			"settings":
+			{
+				"buffer_size": 1423,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "PayCheck.py",
+			"settings":
+			{
+				"buffer_size": 199,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "PayLoader.py",
+			"settings":
+			{
+				"buffer_size": 2675,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"menu",
+				"View: Toggle Menu"
+			],
+			[
+				"setin",
+				"Preferences: Settings"
+			],
+			[
+				"ma",
+				"MarkdownLivePreview: Edit Current File"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"p",
+				"Package Control: Install Package"
+			],
+			[
+				"git pus",
+				"Git: Push"
+			],
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git a",
+				"Git: Add All"
+			],
+			[
+				"git ",
+				"Git: Commit"
+			],
+			[
+				"git pu",
+				"Git: Push"
+			],
+			[
+				"gitco",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 178.0,
+		"history":
+		[
+			"exit()",
+			"exit",
+			"a",
+			"a = 5",
+			"reboot",
+			"tree",
+			"cd",
+			"ls",
+			"seting"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/alukard/coolShit/reddit_auto_upvote"
+	],
+	"file_history":
+	[
+		"/home/alukard/coolShit/reddit_auto_upvote/flags.md",
+		"/home/alukard/coolShit/reddit_auto_upvote_meta/flags.md",
+		"/tmp/missing/semester",
+		"/home/alukard/coolShit/reddit_auto_upvote/upvote.py",
+		"/home/alukard/coolShit/reddit_auto_upvote/PayLoder.py",
+		"/home/alukard/coolShit/reddit_auto_upvote/updown.py",
+		"/home/alukard/.local/share/cinnamon/applets/notifications@cinnamon.org/metadata.json",
+		"/home/alukard/.local/share/cinnamon/applets/notifications@cinnamon.org/settings-schema.json",
+		"/home/alukard/.local/share/cinnamon/applets/notifications@cinnamon.org/applet.js",
+		"/home/alukard/coolShit/opencvShananigans/cam_flip.py",
+		"/home/alukard/justTrash/compile_commands.json",
+		"/etc/bluetooth/network.conf",
+		"/etc/gdm/PostSession/Default",
+		"/etc/kde4/kdm/Xreset",
+		"/home/alukard/Window_95_startup_sound.h",
+		"/home/Alukard/coolShit/mandelbrodSet/mandlebrod.py",
+		"/home/Alukard/coolShit/hexboard/README.md",
+		"/home/Alukard/coolShit/hexboard/hexagon.py",
+		"/home/Alukard/coolShit/hexboard/main.py",
+		"/home/Alukard/coolShit/hexboard/hexBoard.py",
+		"/home/Alukard/coolShit/hexboard/sideBar.py",
+		"/home/Alukard/coolShit/hexboard/sidePanel.py",
+		"/home/Alukard/coolShit/mandelbrodSet/main.c",
+		"/home/Alukard/.config/sublime-text-3/Packages/KiteSublime/KiteSublime.sublime-settings",
+		"/home/Alukard/Fit/proj3/proj3.c",
+		"/tmp/kite_tutorial.py",
+		"/home/Alukard/Fit/IEL/latex.tex",
+		"/home/Alukard/Fit/tmkp/cv13.c",
+		"/tmp/mozilla_Alukard0/Proj3-1.h",
+		"/home/Alukard/Fit/documentace/Proj3.h",
+		"/home/Alukard/Fit/VUT_FIT_proj_tester/pr3/out.out",
+		"/home/Alukard/Fit/VUT_FIT_proj_tester/pr3/l61.out",
+		"/home/Alukard/Fit/VUT_FIT_proj_tester/pr3/s61.out",
+		"/home/Alukard/Fit/proj3/bludiste.txt",
+		"/home/Alukard/Fit/proj3/pato_proj.c",
+		"/home/Alukard/Fit/proj3/pato_proj",
+		"/home/Alukard/Fit/proj3/test.c",
+		"/home/Alukard/Fit/proj3/text.text",
+		"/home/Alukard/Fit/proj3/out.txt",
+		"/home/Alukard/Fit/proj3/shit.txt",
+		"/home/Alukard/Fit/proj3/main.c",
+		"/home/Alukard/Fit/proj2/Jacko/test3.h",
+		"/home/Alukard/Fit/proj2/Jacko/proj2.Oprava.c",
+		"/home/Alukard/Fit/VUT_FIT_proj_tester/README.md",
+		"/home/Alukard/Fit/VUT_FIT_proj_tester/test.h",
+		"/home/Alukard/Fit/proj2/isSolid.c",
+		"/home/Alukard/Fit/proj1/proj1.v",
+		"/home/Alukard/Fit/proj1/proj1",
+		"/home/Alukard/proj1/seznam.txt",
+		"/home/Alukard/proj1/genSeznam.py",
+		"/home/Alukard/proj1/makefile",
+		"/home/Alukard/proj1/proj1.c",
+		"/home/Alukard/.cache/.fr-AfRHVl/IZP.proj1.final/proj1.7.forfor/proj1",
+		"/home/Alukard/Downloads/IZP.proj1.final.txt",
+		"/home/Alukard/proj1/proj1",
+		"/home/Alukard/proj1/README.md",
+		"/home/Alukard/proj1/proj1.2.c",
+		"/home/Alukard/tmp/tmp/proj1/seznam.txt",
+		"/home/Alukard/tmp/tmp/proj1/proj1.o",
+		"/home/Alukard/tmp/tmp/proj1/proj1.c",
+		"/home/Alukard/tmp/tmp/proj1/proj1.3.c",
+		"/home/Alukard/tmp/tmp/proj1/proj1.3",
+		"/home/Alukard/tmp/tmp/proj1/proj1.2.c",
+		"/home/Alukard/tmp/tmp/proj1/proj1.2",
+		"/home/Alukard/tmp/tmp/proj1/proj1",
+		"/home/Alukard/tmp/tmp/proj1/makefile",
+		"/home/Alukard/tmp/tmp/proj1/genSeznam.py",
+		"/home/Alukard/proj1/proj1.extra.c",
+		"/home/Alukard/proj1/proj1.",
+		"/home/Alukard/izp-cv3/hw1.c",
+		"/home/Alukard/izp-cv3/main.c",
+		"/home/Alukard/izp-cv3/proj1.c",
+		"/home/Alukard/izp-cv3/proj1_gues_it_works.c",
+		"/home/Alukard/izp-cv3/hw2.c",
+		"/home/Alukard/izp-cv3/bla",
+		"/home/Alukard/izp-cv3/hw1",
+		"/home/Alukard/Documents/coik1eQuei",
+		"/home/rainbowdash/Dropbox/Workspace/openBSD/TODO.md",
+		"/home/rainbowdash/firewall/Tasks/Firewall1.md",
+		"/home/rainbowdash/VirtualBox VMs/openBSD/Logs/VBox.log",
+		"/home/rainbowdash/all/GitBasics.md",
+		"/home/rainbowdash/reddit_auto_upvote/resourse.md",
+		"/home/rainbowdash/reddit_auto_upvote/flags.md",
+		"/home/rainbowdash/reddit_auto_upvote/flags.txt",
+		"/home/rainbowdash/reddit_auto_upvote/praw.ini",
+		"/home/rainbowdash/reddit_auto_upvote/mail",
+		"/home/rainbowdash/reddit_auto_upvote/upvote.js",
+		"/home/rainbowdash/ParseIPFromLog/ParseIPFromLog.sh",
+		"/home/rainbowdash/ParseIPFromLog/pythonscript.py",
+		"/home/rainbowdash/ParseIPFromLog/output.csv",
+		"/home/rainbowdash/ParseIPFromLog/access.log",
+		"/home/rainbowdash/ParseIPFromLog/README.md",
+		"/home/rainbowdash/ParseIPFromLog/testovaci_uloha_1.zip",
+		"/home/rainbowdash/.cache/.fr-HLqJ32/ParseIPFromLog.sh",
+		"/home/rainbowdash/s.sh",
+		"/home/rainbowdash/pythonscript.py",
+		"/var/log/apache2/access.log",
+		"/home/rainbowdash/pytonscript.py",
+		"/home/rainbowdash/ss.h",
+		"/home/rainbowdash/Desktop/ss.sh",
+		"/var/www/lordofthedeepabyssrichardthei.rf.gd/html/index.html",
+		"/usr/games/gnome-mines",
+		"/run/tor/control",
+		"/home/rainbowdash/Desktop/TODO.md",
+		"/home/rainbowdash/Desktop/todo.desktop",
+		"/usr/local/bin/desktopTODO.sh",
+		"/etc/desktopTODO",
+		"/home/rainbowdash/Desktop/todo.sh",
+		"/etc/rmt",
+		"/home/rainbowdash/Desktop/Dead Cells.desktop",
+		"/home/rainbowdash/Desktop/Dead Cells (copy).desktop",
+		"/home/rainbowdash/Documents/untitled",
+		"/home/rainbowdash/.steam/steam/steamapps/common/Warframe/Tools/README.md",
+		"/home/rainbowdash/Desktop/MemeFolder/8chan/README.md",
+		"/home/rainbowdash/Desktop/MemeFolder/8chan.md",
+		"/home/rainbowdash/Desktop/MemeFolder/TheDiscusting/ReadMe.md",
+		"/home/rainbowdash/Desktop/MemeFolder/TheDiscusting/ReadMe.txt",
+		"/home/rainbowdash/Dropbox/Workspace/opencvShananigans/show.py",
+		"/home/rainbowdash/Dropbox/Workspace/opencvShananigans/COMMIT_EDITMSG.COMMIT_EDITMSG"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"PayLast"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "/home/alukard/coolShit/reddit_auto_upvote"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Reddit.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1423,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								483,
+								483
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "PayCheck.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 199,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								199,
+								199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "PayLoader.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2675,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1665,
+								1665
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 43.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 29.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 116.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 162.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

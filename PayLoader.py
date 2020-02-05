@@ -6,120 +6,80 @@ import sys
 import os
 import pickle
 
-from urllib.request import urlopen
-from configparser import ConfigParser
+from Reddit import Reddit
 
+class PayLoader(Reddit):
 
-class PayLoader:
-
-	config = {
-		"waitTime": 5,
-		"PayLodeLen" : 50
-	}
-	
-
-
-	# agent
-	reddit = praw.Reddit('bot4', user_agent="bot4")
-
-	# subreddit we are focesed on
-	subreddit = reddit.subreddit("funny")
-
-	# my paylaod
-	PayLoad = []
 
 	def __init__(self):
 		#print(dir(subreddit))
 		self.read()
-
+		self.cache_new = []
+		
 
 	def vote(self):
+		last_new = ""
+		self.read()
 		while (True):
-			for ajkh in self.subreddit.new(limit=1):
-				new = ajkh
-			if (self.PayLoad == [] or self.PayLoad[0][1] != new.id ):
-				print(new.title)
-				self.PayLoad = []
-				self.read()
-				self.update()
-				self.write()
-			else:
-				print(".",end ="", flush = True)
+			cache_new = self.get_new()
+			for first in cache_new:
+				print("-",end ="", flush = True)
+				new = first
+				break
 
-			time.sleep(self.config["waitTime"])
+			if (self.PayLoad == [] or (self.PayLoad[-1][1] != new.id and last_new != new )):
+				last_new = new
+				print(">")
+				self.update(cache_new)
+				self.write()				
 
+			time.sleep(self.config["wait"])
 
+	def get_new(self):
+		return self.subreddit.new(limit=self.config["lengh"])
 
-	def clear(self):
-		self.PayLoad = []
-		self.write()
-		print("Paylode is emptyed")
+	# updetes the Payload
+	def update(self, new_submissions = []):
 
-	def update(self):
-		print("...voting")
+		if (new_submissions == []):
+			new_submissions = self.get_new()
+
 		# last post
 		last = self.PayLast();
 		# stores all new posts
 		cache =[]
 
 		# for all new vote up or donw
-		for submission in self.subreddit.new(limit=self.config["PayLodeLen"]):
+		for submission in new_submissions:
+
+			if (self.PayLoad != [] and self.PayLoad[-1][1] == submission.id):
+				self.PayLoad.extend(cache)
+				return
+
+			if (submission.id in last[-20:-1]):
+				print ("ok")
+				self.PayLoad.extend(cache)
+				return
+
+
 			if (submission.id in last):
-				print ("<--")
-				self.PayLoad = cache + self.PayLoad
+				print (">>>PANIC<<<<", submission.id, submission.title, self.PayLoad[-1])
+				self.PayLoad.extend(cache)
 				return
 
 			if (random.choice([1,0]) == 0):
 				submission.upvote()
-				cache.append(["[up]", submission.id, time.time()])
+				cache.insert(0,["[up]", submission.id, time.time()])
 				#print("[up]", submission)
 
 			else:
 				submission.downvote()
-				cache.append(["[dw]", submission.id, time.time()])
+				cache.insert(0,["[dw]", submission.id, time.time()])
 				#print("[dw]", submission)
 
-			print(">",cache[-1],submission.title)
+			print(">",cache[0],submission.title)
 
 		# update PayLoad
-		self.PayLoad = cache + self.PayLoad
+		self.PayLoad.extend(cache)
 		print("----------------------------------------------------------")
-
-	# write down Payload
-	def read(self):
-		self.PayLoad = []
-		try:
-			with open("PayLoad.bin", "rb") as fp:   #Pickling
-				self.PayLoad = pickle.load(fp)
-			
-		except Exception as e:
-			pass
-
-		if (self.PayLoad == []):
-			print ("PayLoad is empty")
-			return
-
-		
-	# Laad PayLoad
-	def write(self):
-		with open("PayLoad.bin", "wb") as fp:   #Pickling
-				pickle.dump(self.PayLoad, fp)
-
-	# Print PayLoad
-	def PayPrint(self,n=10):
-		print("-------------PayLoad-----------------------------------------------------------------------")
-		for pay in self.PayLoad:
-			print (pay)
-			n -= 1
-			if (n==0):
-				return
-		print("--------------------------------------------------------------------------------")
-
-	# Last post in PayLoad
-	def PayLast(self):
-		last = []
-		if (self.PayLoad != []):
-			for p in self.PayLoad:
-				last.append(p[1])
-		#print (last, "--> end of last Pay")
-		return last
+	
