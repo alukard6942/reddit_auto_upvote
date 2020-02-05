@@ -1,12 +1,14 @@
 #!/usr/bin/python
 from PayLoader import PayLoader
+from PayCheck import PayCheck
 
 def main():
-	pay = PayLoader()
+	load = PayLoader()
+	check = PayCheck()
 
-	pay.read()
-	pay.print()
-	pay.vote()
+	#load.vote()  # endless loop
+
+	check.list()  # to see results
 
 
 if (__name__ == '__main__'):
