@@ -8,6 +8,7 @@ def main():
 
 	#load.vote()  # endless loop
 
+	check.read()
 	check.list()  # to see results
 
 

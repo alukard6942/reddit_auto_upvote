@@ -67,15 +67,21 @@ class PayLoader(Reddit):
 				self.PayLoad.extend(cache)
 				return
 
-			if (random.choice([1,0]) == 0):
+			rnd = random.choice(["[up]","[dw]","[no]"])
+
+			if ( rnd == "[up]"):
 				submission.upvote()
 				cache.insert(0,["[up]", submission.id, time.time()])
 				#print("[up]", submission)
 
-			else:
+
+			elif(rnd == "[dw]"):
 				submission.downvote()
 				cache.insert(0,["[dw]", submission.id, time.time()])
 				#print("[dw]", submission)
+
+			elif(rnd == "[no]"):
+				cache.insert(0,["[no]", submission.id, time.time()])
 
 			print(">",cache[0],submission.title)
 

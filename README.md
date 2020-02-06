@@ -27,6 +27,6 @@ randomly upvotes poust in new and monitors their traction
 	update():		updates PayLoad
 
 ## PayChecker (Reddit)
-	__init()__():	void
+	__init__():		void
 	list():			collects results form PayLoad
 	
