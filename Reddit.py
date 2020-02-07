@@ -13,27 +13,29 @@ class Reddit:
 		"wait": 5,
 		"lengh" : 5, # we have to insure all posts are new 
 		"subreddit" : "funny",
-		"bot" : "bot3",
-		"print" : 10
+		"file" : "PayLoad.bin",
+		"bot" : "bot4",
+		"print" : 10,
+		"choises" : ["[up]","[dw]","[no]"]
 	}
 
 	count = {
 		"[up]" : [0,0],
 		"[dw]" : [0,0],
 		"[no]" : [0,0],
+		"[al]" : [0,0],
 		"time" : [0,0]
 	}
 
-	def averige(self,element, round_flag = True):
-		if (self.count[element][1] == 0):
+	def averige(self,element, positon = 0, diff = -1):
+		if (diff != -1):
+			a = self.count[element][0]+diff/(self.count[element][1]+1)
+		elif (self.count[element][1] == 0):
 			a = 0
 		else:
 			a = self.count[element][0]/self.count[element][1]
 
-		if (round_flag):
-			return round(a)
-		else:
-			return a
+		return round(a,positon)
 
 	def printavgs(self):
 		print ("avereges:")
@@ -59,10 +61,13 @@ class Reddit:
 		print("Paylode is emptyed")
 
 	# write down Payload
-	def read(self):
+	def read(self,file = ""):
+		if (file == ""):
+			file = self.config["file"]
+
 		self.PayLoad = []
 		try:
-			with open("PayLoad.bin", "rb") as fp:   #Pickling
+			with open(file, "rb") as fp:   #Pickling
 				self.PayLoad = pickle.load(fp)
 			
 		except Exception as e:
@@ -73,12 +78,15 @@ class Reddit:
 			return
 
 	# Laad PayLoad
-	def write(self):
-		with open("PayLoad.bin", "wb") as fp:   #Pickling
+	def write(self,file = ""):
+		if (file == ""):
+			file = self.config["file"]
+
+		with open(file, "wb") as fp:   #Pickling
 				pickle.dump(self.PayLoad, fp)
 
 	# Print PayLoad
-	def print(self,n=config["print"]):
+	def print(self, n=config["print"]):
 		print("-------------PayLoad------------------------------------------")
 		l = 0
 		for pay in self.PayLoad:
@@ -87,12 +95,16 @@ class Reddit:
 				print (pay)
 		print("------------ [", l,"] --------------------------------------")
 
-	# Last post in PayLoad
-	def PayLast(self):
-		last = []
-		if (self.PayLoad != []):
-			for p in self.PayLoad:
-				last.append(p[1])
-		#print (last, "--> end of last Pay")
-		return last
+	def join(self,origin, destiny):
+		origin_list = []
+		destiny_list = []
+		try:
+			with open(origin, "rb") as fp:   #Pickling
+				origin_list = pickle.load(fp)
+			with open(destiny, "rb") as fp:   #Pickling
+				destiny_list = pickle.load(fp)
+		except Exception as e:
+			pass
 
+		with open(destiny, "wb") as fp:   #Pickling
+				pickle.dump(origin_list.extend(destiny_list), fp)

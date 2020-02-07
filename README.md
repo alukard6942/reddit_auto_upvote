@@ -2,13 +2,14 @@
 randomly upvotes poust in new and monitors their traction
 
 ## prawn Documentation
-[https://praw.readthedocs.io/en/v3.6.0/pages/writing_a_bot.html ] writing reddit bot
+ [writing reddit bot] (https://praw.readthedocs.io/en/v3.6.0/pages/writing_a_bot.html)
 
 
-## PayLode.bin
-+ binary file containg PayLode of all upvoted from new
-+ TODO for subreddit new *.bin 
-+
+## \*.bin 
++ pickled list of tracked posts 
++ [ choise 	# "[up]" upvoted / "[dw]" downvoted / "[no]" no action
+	postId 	# id of a post
+	time  ]	# time when choise was made	
 
 ## main 
 + main
