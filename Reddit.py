@@ -10,13 +10,14 @@ import math
 class Reddit:
 
 	config = {
-		"wait": 5,
-		"lengh" : 5, # we have to insure all posts are new 
+		"wait"		: 5,
+		"lengh" 	: 5, # we have to insure all posts are new 
 		"subreddit" : "funny",
-		"file" : "PayLoad.bin",
-		"bot" : "bot4",
-		"print" : 10,
-		"choises" : ["[up]","[dw]","[no]"]
+		"file" 		: "PayLoad.bin",
+		"bot" 		: "bot4",
+		"print" 	: 10,
+		"choises"	: ["[up]","[dw]","[no]"],
+		"lastposts" : 25
 	}
 
 	count = {
@@ -26,6 +27,15 @@ class Reddit:
 		"[al]" : [0,0],
 		"time" : [0,0]
 	}
+
+	# agent
+	reddit = []
+	# subreddit we are focesed on
+	subreddit = []
+
+	def __init__(self):
+		print("__init__ <-- Reddit")
+
 
 	def averige(self,element, positon = 0, diff = -1):
 		if (diff != -1):
@@ -42,18 +52,30 @@ class Reddit:
 		for k in self.count:
 			print(k, "\t",self.averige(k))
 
+	def set_bot(self, bot = ""):
+		if (bot != ""):
+			self.config["bot"] = bot
+		# agent
+		self.reddit = praw.Reddit(self.config["bot"], user_agent=self.config["bot"])
 
-	# agent
-	reddit = praw.Reddit(config["bot"], user_agent=config["bot"])
+	def set_sub(self, sub = "", file_flag = True):
+		if (sub != ""):
+			self.config["subreddit"] = sub
+		if (self.reddit == []):
+			self.set_bot()
+		# subreddit we are focesed on
+		self.subreddit = self.reddit.subreddit(self.config["subreddit"])
+		if (file_flag):
+			self.set_file()
 
-	# subreddit we are focesed on
-	subreddit = reddit.subreddit(config["subreddit"])
+	def set_file(self,file = ""):
+		if (file == ""):
+			self.config["file"] = self.config["subreddit"] + ".bin"
+		else:
+			self.config["file"] = file
 
 	# my paylaod
 	PayLoad = []
-
-	def __init__(self):
-		print("__init__ <-- Reddit")
 
 	def clear(self):
 		self.PayLoad = []

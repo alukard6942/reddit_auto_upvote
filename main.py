@@ -4,16 +4,16 @@ from PayCheck import PayCheck
 
 def main():
 	load = PayLoader()
-	check = PayCheck()
+	#check = PayCheck()
 
 	load.config["choises"] = ["[up]","[dw]", "[dw]"]
-	load.config["bot"] = "bot3"
-	load.config["subreddit"] = "memes"
+	load.set_bot("bot3")
+	load.set_sub("memes")
 
 	load.vote()  # endless loop
 
-	check.read()
-	check.list()  # to see results
+	#check.read()
+	#check.list()  # to see results
 
 
 if (__name__ == '__main__'):
