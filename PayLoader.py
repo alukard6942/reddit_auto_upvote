@@ -5,18 +5,18 @@ import time
 import sys
 import os
 import pickle
+import pandas as pd
 
 from Reddit import Reddit
 
 class PayLoader(Reddit):
-
 
 	def __init__(self):
 		#print(dir(subreddit))
 		self.cache_new = []
 		self.time_last = time.time()
 		self.message = "[no] ----nothing----"
-		self.flag = "-"
+		self.flag = "init"
 
 	def vote(self):
 		# prep work
@@ -25,7 +25,7 @@ class PayLoader(Reddit):
 		self.read()
 		print("connection to reddit:",self.reddit.user.me())
 		print("connection to subreddit:",self.subreddit)
-		print("wait time:  avg t:    choise:    title:                           debug flag:")
+		print("now:    avg t:    choise:    title:                           debug flag:")
 
 		self.stream()
 
@@ -37,36 +37,45 @@ class PayLoader(Reddit):
 		self.write()
 		print("paylode has been saved")
 
-
-
-
 	def stream(self):
 		# endless stream of new posts
 		for submission in self.subreddit.stream.submissions():
-			if (self.flag == 'c'):
+			if (self.flag == "skip"):
 				continue
-			if (self.flag == 'b'):
+			if (self.flag == "break"):
 				break
 
 			rnd = random.choice(self.config["choises"])
 			if ( rnd == "[up]"):
 				submission.upvote()
-				self.PayLoad.append([rnd, submission.id, time.time()])
-				#print("[up]", submission)
 			elif(rnd == "[dw]"):
 				submission.downvote()
-				self.PayLoad.append([rnd, submission.id, time.time()])
-				#print("[dw]", submission)
 			else:
-				self.PayLoad.append(["[no]", submission.id, time.time()])
-
+				rnd = "[no]"
+			
+			self.PayLoad.append([rnd, submission.id, time.time()])
+			self.time_last = time.time()
 			self.nice_line("{1} {0}".format(submission.title, rnd))
 
 
 	def get_flag(self):
 		return '-'
-		
+	
+	def nice_line(self, message = ""):
+		diff = time.time() - self.time_last
+		now= "{0}".format(time.strftime("%H:%M")).center(5," ") 
+		if (message != ""):
+			self.message = message
+			self.time_last = time.time()
+			# log diff
+			self.count["time"][1] += 1
+			self.count["time"][0] += diff
+		avg= "{0}s".format(round(self.averige("time", 3, diff),2)).center(7," ") 
+		print("\r[{0}] [{2}] {1}".format(now, self.message,avg)[:74].ljust(75," "), self.flag, end = "")
 
+
+# this is a relic
+	
 	def oldvote(self):
 		self.set_bot()
 		self.set_sub()
@@ -75,7 +84,7 @@ class PayLoader(Reddit):
 		print("connection to subreddit:",self.subreddit)
 
 		# nice loking table
-		print("wait time:  avg t:    choise:    title:                           debug flag:")
+		print("now:  avg t:    choise:    title:                           debug flag:")
 
 		last_new = ""
 		self.read()
@@ -98,31 +107,6 @@ class PayLoader(Reddit):
 		return self.subreddit.new(limit=self.config["lengh"])
 
 	
-	
-	def nice_line(self, message = ""):
-		diff = time.time() - self.time_last
-		now= " {0}s ".format(round(diff,2)).center(8," ") 
-		if (message != ""):
-			self.message = message
-			self.time_last = time.time()
-			# log diff
-			self.count["time"][1] += 1
-			self.count["time"][0] += diff
-		avg= "{0}s".format(round(self.averige("time", 3, diff),2)).center(7," ") 
-		print("\r[ {0}] [{2}] {1}".format(now, self.message,avg)[:74].ljust(75," "), self.flag, end = "")
-
-
-
-
-
-
-
-
-
-
-
-# this is a relic
-
 	# updetes the Payload
 	def update(self, new_submissions = []):
 

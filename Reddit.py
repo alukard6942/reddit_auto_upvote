@@ -39,7 +39,7 @@ class Reddit:
 
 	def averige(self,element, positon = 0, diff = -1):
 		if (diff != -1):
-			a = self.count[element][0]+diff/(self.count[element][1]+1)
+			a = (self.count[element][0]+diff)/(self.count[element][1]+1)
 		elif (self.count[element][1] == 0):
 			a = 0
 		else:
