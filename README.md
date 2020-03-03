@@ -25,7 +25,7 @@ randomly upvotes poust in new and monitors their traction
 ## PayLoader (Reddit)
 	__init__():		reads paylode on init
 	vote():			colects votes forever
-	update():		updates PayLoad
+	stream():		collets posts fom stream to PayLoad
 
 ## PayChecker (Reddit)
 	__init__():		void

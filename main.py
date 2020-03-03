@@ -1,19 +1,17 @@
-#!/usr/bin/python
-from PayLoader import PayLoader
-from PayCheck import PayCheck
+#!/usr/bin/python3
+from Reddit import Reddit
 
 def main():
-	load = PayLoader()
-	#check = PayCheck()
+	r = Reddit()
+	
+	r.set_choise(["[up]","[dw]", "[dw]"])
+	r.set_bot("bot3")
+	r.set_sub("memes")
 
-	load.config["choises"] = ["[up]","[dw]", "[dw]"]
-	load.set_bot("bot3")
-	load.set_sub("memes")
+	# r.collect()  # endless loop
 
-	load.vote()  # endless loop
-
-	#check.read()
-	#check.list()  # to see results
+	r.read()
+	r.list()  # to see results
 
 
 if (__name__ == '__main__'):
