@@ -6,21 +6,28 @@ import sys
 import os
 import pickle
 import math
+# import multiprocessing
 import _thread
-import keyboard
+
+# keystrokes 
+import tty
+#import sys
+import termios
 
 class Reddit:
 
 	config = {
-		"wait"		: 5,
-		"lengh" 	: 5, # we have to insure all posts are new 
-		"subreddit" : "funny",
-		"file" 		: "PayLoad.bin",
-		"bot" 		: "bot4",
-		"print" 	: 10,
-		"choises"	: ["[up]","[dw]","[no]"],
-		"lastposts" : 25,
-		"intwait"   : 60
+		"wait"			: 5,
+		"lengh" 		: 5, # we have to insure all posts are new 
+		"subreddit"     : "funny",
+		"file" 			: "PayLoad.bin",
+		"bot" 			: "bot1",
+		"print" 		: 10,
+		"choises"		: ["[up]","[dw]","[no]"],
+		"lastposts"     : 25,
+		"intwait"       : 0*60*2,
+		"sleep"			: 0.1,
+		"save_time"		: 60
 	}
 
 	count = {
@@ -35,6 +42,10 @@ class Reddit:
 	reddit = []
 	# subreddit we are focesed on
 	subreddit = []
+
+	# payloade
+	PayLoad = []
+
 
 	def __init__(self):
 		self.cache_new = []
@@ -51,14 +62,49 @@ class Reddit:
 		print("connection to subreddit:",self.subreddit)
 		self.read()
 
+
+		# thread each process 
+		# streaming = multiprocessing.Process(target=self.stream,    args=()) 
+		# streaming.start() 
+		# nice_line = multiprocessing.Process(target=self.nice_line, args=())
+		# nice_line.start()
+		# save_loop = multiprocessing.Process(target=self.saveLoop,  args=())
+		# save_loop.start()
+		
 		try:
 			_thread.start_new_thread( self.stream,() )
 			_thread.start_new_thread( self.nice_line,() )
-		except Exception as e:
-			pass
+			_thread.start_new_thread( self.saveLoop,() )
+		except:
+			print ("Error: unable to start thread")
 
-		while self.flag != "q":
-			continue
+		# event looop
+		while True:
+			if (self.flag != "q"):
+				return
+			self.flag = sys.stdin.read(1)[0]
+		
+
+		# orig_settings = termios.tcgetattr(sys.stdin)
+
+		# tty.setcbreak(sys.stdin)
+		# x = 0
+		# while x != chr(27): # ESC
+		#     x=sys.stdin.read(1)[0]
+		#     print("You pressed", x)
+
+		# termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)    
+
+
+		# streaming.terminate()
+		# nice_line.terminate()
+		# save_loop.terminate()
+
+
+	def saveLoop(self):
+		while True:
+			time.sleep(self.config["save_time"])
+			self.write()
 
 	def vote(self):
 		# prep work
@@ -69,7 +115,8 @@ class Reddit:
 		print("connection to subreddit:",self.subreddit)
 
 		try:
-			self.stream()
+			while True:
+				self.stream()
 		except Exception as e:
 			self.flag = "q"
 			print("----END OF STREAM-------")
@@ -78,48 +125,57 @@ class Reddit:
 		print("paylode has been saved")
 
 	def stream(self):
-		# endless stream of new posts
-		for submission in self.subreddit.stream.submissions():
-			if (self.flag == "c"):
-				continue
-			if (self.flag == "q"):
-				break
+		try:
+		#while True:
+			# endless stream of new posts
+			for submission in self.subreddit.stream.submissions():
+				if (self.flag == "c"):
+					#time.sleep(5)
+					continue
+				if (self.flag == "q"):
+					break
 
-			rnd = random.choice(self.config["choises"])
-			if ( rnd == "[up]"):
-				submission.upvote()
-			elif(rnd == "[dw]"):
-				submission.downvote()
-			else:
-				rnd = "[no]"
+				rnd = random.choice(self.config["choises"])
+				if ( rnd == "[up]"):
+					submission.upvote()
+				elif(rnd == "[dw]"):
+					submission.downvote()
+				else:
+					rnd = "[no]"
+				self.PayLoad.append([rnd, submission.id, time.time()])
+
+				self.update_line("{1} {0}".format(submission.title, rnd))
 			
-			self.PayLoad.append([rnd, submission.id, time.time()])
-
-			self.update_line("{1} {0}".format(submission.title, rnd))
+		except:
+			print ("exeptin when streeaming submission")
 
 	def get_flag(self):
 		return '-'
 	
 	def update_line(self,message):
-		self.message = message
+		self.message = message.encode("ascii","ignore")
 		self.count["time"][1] += 1
 		self.count["time"][0] += time.time() - self.time_last
 		self.time_last = time.time()
 
 	def nice_line(self):
-		while True:
-			print("Ima wait",time.time() - self.init, "outa", self.config["intwait"], "\r", end = "")
+		while(self.flag != "q" and self.flag != "c" ):
+			print("Ima wait",round(time.time() - self.init, 4), "outa", self.config["intwait"], "\r", end = "")
 			if (time.time() - self.init > self.config["intwait"]):
 				self.flag = "g"
 				break
+
+		# headline
 		print("now:    avg t:    choise:    title:                           debug flag:")
+
 		self.time_last = time.time()
 		while(self.flag != "q" ):
-			diff = time.time() - self.time_last
+			diff = time.time() - self.PayLoad[-1][2]
 			#t = time.strftime("%H:%M")
 			now= "{0}s".format(round(diff)).center(5," ") 
 			avg= "{0}s".format(round(self.averige("time", 3, diff),2)).center(7," ") 
 			print("\r[{0}] [{2}] {1}".format(now, self.message, avg)[:72].ljust(73," "), self.flag, end = "")
+			#time.sleep(config["sleep"])
 		print ("end")
 
 	def list(self, time_diff = 0):
