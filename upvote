@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# this is a abslutly wunderbar solution I know
+cd /home/alukard/coolShit/reddit_auto_upvote
+./upvote.py $*

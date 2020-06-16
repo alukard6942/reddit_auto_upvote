@@ -6,7 +6,7 @@ import sys
 def usage():
 	print (
 """upvote [flag] [option] 
-
+	-h --help              |	prints this help
 	-d --debug             |	enable debug mode
 
 	l list    [file]       |	lists averige upvode/downvote/none count
@@ -18,6 +18,8 @@ def usage():
 	               s       |	skip one post
 	               l       |	clear display
 	               d       |	enable debug mode
+	[file]                 |	default in PayLoad/ 
+	                       |	for other location use absolute path
 	""")	
 
 def main():
@@ -25,29 +27,39 @@ def main():
 
 	r = Reddit()
 
-	shift = 0
-
-	if (argc > shift + 1 and (sys.argv[shift + 1] == "--debug" or sys.argv[shift + 1] == "-d" )):
-		r.set_debug_flag()
-		shift += 1
-
-	# r.set_choise(["[up]","[dw]","[no]"])
-	r.set_choise(["[no]"])
+	r.set_choise(["[up]","[dw]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]"])
+	# r.set_choise(["[no]"])
 	r.set_bot("bot4")
 	r.set_sub("all")
+	shift = 0
+
+	for flag in range(argc):
+		if (sys.argv[flag] == "--debug" or sys.argv[flag] == "-d" ):
+			r.set_debug_flag()
+			shift += 1
+
+		elif (sys.argv[flag] == "--help" or sys.argv[flag] == "-h" ):
+			usage()
+			return
+
+		elif (sys.argv[flag] == "--user" or sys.argv[flag] == "-u" ):
+			r.set_bot(sys.argv[flag+1])
+			shift += 2
+
+	
 
 	if (argc > shift + 1 and (sys.argv[shift + 1] == "list" or sys.argv[shift + 1] == "l" )):
 		if (argc > shift + 2):
-			r.read(sys.argv[shift + 2])
+			r.set_file(sys.argv[shift + 2])
 		else:
-			r.read()
+			r.set_file()
 		r.list()  # to see results
 
 	elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1] == "p" )):
 		if (argc > shift + 2):
-			r.read(sys.argv[shift + 2])
+			r.set_file(sys.argv[shift + 2])
 		else:
-			r.read()
+			r.set_file()
 
 		if (argc > shift + 3):
 			r.print(int(sys.argv[shift + 3]))
