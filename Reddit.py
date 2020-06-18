@@ -28,16 +28,18 @@ class Reddit:
 		"intwait"       : 60*2*0+5,
 		"sleep"			: 1,
 		"lsleep"		: 0,
-		"save_time"		: 20,
+		"save_time"		: 15*60,
 		"debugFlag"     : False,
 		"clear"         : 50,
 		"line_len"      : 80,
+		"nsfwC"			: False,
 
 		"forceStream"   : True,
 
-		"dbgDir"        : False,
+		"dbgDir"        : True,
 		"dbgText"       : False,
 		"qOnUP"       	: False,
+		"dbgErm"       	: False,
 	}
 
 	count = {
@@ -47,6 +49,7 @@ class Reddit:
 		"[al]" : [0,0],
 		"time" : [0,0],
 		"errs" : [0,0],
+		"NSFW" : [0,0],
 	}
 
 	# agent
@@ -141,7 +144,6 @@ class Reddit:
 		#while True:
 			# endless stream of new posts
 			for submission in self.subreddit.stream.submissions():
-				self.count["errs"][1] += 1
 				if (self.flag == "c"):
 					#time.sleep(5)
 					continue
@@ -152,6 +154,15 @@ class Reddit:
 				if (self.flag == "s"):
 					self.flag = self.get_flag()
 					continue
+
+				self.count["errs"][1] += 1
+
+
+				nsfw = submission.over_18
+				if (self.config["debugFlag"]): print(nsfw)
+				if (nsfw):
+					if(self.config["nsfwC"]): self.loading_char = "F"
+					self.count["NSFW"][0] += 1
 
 				rnd = random.choice(self.config["choises"])
 				if ( rnd == "[up]"):
@@ -164,7 +175,7 @@ class Reddit:
 						print (",\r", end="")
 				else:
 					rnd = "[no]"
-				self.PayLoad.append([rnd, submission.id, time.time()])
+				self.PayLoad.append([rnd, submission.id, time.time(), nsfw])
 
 				self.update_line("{1} {0}".format(submission.title, rnd))
 
@@ -180,16 +191,17 @@ class Reddit:
 
 
 			
-		except Exception as e:
-			print ("\nexeptin when streeaming submission\n\t",e)
-			
+		except Exception as e:			
 			if(self.config["forceStream"]):
 				if (self.config["debugFlag"]): print ("connection faild.... reconecting")
 				self.init = time.time()
-				self.flag = "c" 
+				# self.flag = "c" 
 				self.count["errs"][0] += 1
 				self.stream()
-			else: self.flag = "q"
+			else: 
+				self.flag = "q"
+				print ("\nexeptin when streeaming submission\n\t",e)
+
 
 	def get_flag(self, evLoop = False):
 		if (not evLoop):
@@ -204,7 +216,7 @@ class Reddit:
 
 			char = sys.stdin.read(1)[-1]
 
-			if (char not in "wdplLsceq"): 
+			if (char not in "wdplaLsceq"): 
 				return "-"
 				char = self.prev_flag
 				if (self.config["debugFlag"]): print ("flag to: ", char)
@@ -214,11 +226,14 @@ class Reddit:
 			if ( char == "d" ): 
 				self.config["debugFlag"] = not self.config["debugFlag"]
 
-			if ( char == "l" or char == "L" ):
+			elif (char == "l" or char == "L" ):
 				for i in range(self.config["clear"]): print()
 				char = "p"
 
-			if ( char == "c"):
+			if (char in "Llp"):
+				self.get_window()
+
+			elif (char == "c"):
 				self.init = time.time()
 
 			self.prev_flag = char
@@ -251,6 +266,10 @@ class Reddit:
 			print("t:      avg t:   choise:    title:".ljust(line_len - 5), "flag:")
 			self.flag == self.get_flag()
 
+		elif (self.flag == "a"):
+			self.printavgs()
+			self.get_flag()
+
 		elif(self.flag != "q" and self.flag != "c" ):
 			# try:
 			# 	diff = time.time() - self.PayLoad[-1][2]
@@ -263,8 +282,8 @@ class Reddit:
 			out = "\r[{0}][{2}] {1}".format(now, self.message, avg)
 
 			out = self.get_aligned_string(out,self.config["line_len"]-2)			
-			print ("\r ".ljust(self.config["line_len"]), end = "")
-			print (out + self.loading_char + self.flag, end = "")
+			print ("\r ".ljust(self.config["line_len"])+ self.loading_char + self.flag, end = "")
+			print ("\r" +out, end = "")
 			time.sleep(self.config["sleep"])
 
 	def list(self, time_diff = 0):
@@ -297,34 +316,60 @@ class Reddit:
 				print("downvotes:   upvotes:      nothing:       title")
 				self.flag = self.get_flag()
 
+			elif (self.flag == "a"):
+				self.printavgs()
+				self.get_flag()
+
 			if (time.time() - pay[2] < time_diff):
 				break
 
 			try:
-				if (self.config["lsleep"] != 0): time.sleep(self.config["lsleep"])
+				if (self.config["lsleep"] != 0):
+					if (self.config["debugFlag"]): print ("zz..")
+					time.sleep(self.config["lsleep"])
+				
 				post = self.reddit.submission(pay[1])
-				ups = post.ups
+				ups   = post.ups
 				title = post.title
+				nsfw  = post.over_18
+				if (nsfw):
+					if (self.config["nsfwC"]):
+						self.loading_char = "F"
+					self.count["NSFW"][0] += 1
+
+					# each choise
+				self.count[pay[0]][1] += 1 
+				self.count[pay[0]][0] += ups 
+				# averidge of all
+				self.count["[al]"][1] += 1 
+				self.count["[al]"][0] += ups 
+
 			except Exception as e:
 				self.count["errs"][0] += 1
-				print (pay[1],"doesnt exists | count:", self.count["errs"])
-				if(self.config["debugFlag"]): print ("|",e,"|")
-				if(self.config["qOnUP"])    : self.flag  = "q"
+				if(self.config["debugFlag"]): 
+					print (pay[1],"doesnt exists | count:", self.count["errs"])
+				if(self.config["debugFlag"] and self.config["dbgErm"]): 
+					print ("|",e,"|")
+				if(self.config["qOnUP"]):
+					self.flag  = "q"
+				else:
+					out = "\r[dw:{2}] {0} [up:{3}] {1} [no:{5}] {4} | {6}".format(
+					self.averige("[dw]"),self.averige("[up]"),
+					self.count["[dw]"][1],self.count["[up]"][1],
+					self.averige("[no]"),self.count["[no]"][1], 
+					"========redacted========") 
+					print ("\r"+ out[:self.config["line_len"]], end = "")
 				continue
-			
-			# each choise
-			self.count[pay[0]][1] += 1 
-			self.count[pay[0]][0] += ups 
-			# averidge of all
-			self.count["[al]"][1] += 1 
-			self.count["[al]"][0] += ups 
 
 			if ( self.flag != "p"):
-				#sys.stdout.write("\r[dw:{2}] {0} [up:{3}] {1} [no:{5}] {4}    {6}".format(self.averige("[dw]"),self.averige("[up]"),self.count["[dw]"][1],self.count["[up]"][1],self.averige("[no]"),self.count["[no]"][1], post.title)[:79].ljust(79," "))
-				out = "\r[dw:{2}] {0} [up:{3}] {1} [no:{5}] {4} | {6}".format(self.averige("[dw]"),self.averige("[up]"),self.count["[dw]"][1],self.count["[up]"][1],self.averige("[no]"),self.count["[no]"][1], title) #.encode("ascii","replace").decode())[:line_len].ljust(line_len," ")
+				out = "\r[dw:{2}] {0} [up:{3}] {1} [no:{5}] {4} | {6}".format(
+					self.averige("[dw]"),self.averige("[up]"),
+					self.count["[dw]"][1],self.count["[up]"][1],
+					self.averige("[no]"),self.count["[no]"][1], 
+					title) 
 				out = self.get_aligned_string(out,self.config["line_len"])
 				print ("\r ".ljust(self.config["line_len"]), end = "")
-				print(out, end = "")
+				print ("\r" + out, end = "")
 			
 		print("")
 		
@@ -429,12 +474,20 @@ class Reddit:
 
 	def printavgs(self):
 		#print ("avereges:")
-		print ("\t---------------------------------")
-		print ("\t| type:\t sum, count:\t avg:")
-		print ("\t---------------------------------")
+		self.count["N"] = [self.count["errs"][1], len(self.PayLoad)]
+		self.count["NSFW"][1] = self.count["errs"][1]
+		print (" ")
+		print ("\t-------------------------------------")
+		print ("\t| type:  sum,      count:    avg:")
+		print ("\t-------------------------------------")
 		for k in self.count:
-			print("\t|",k, "\t|",self.count[k], "\t|",self.averige(k))
-		print ("\t---------------------------------")
+			avg = self.averige(k,5)
+			if (avg != 0):
+				print("\t|",k.ljust(4), "|",
+					str(round(self.count[k][0],2)).ljust(8)+ "|",
+					str(round(self.count[k][1],2)).ljust(8)+ "|",
+					avg)
+		print ("\t-------------------------------------")
 
 	def get_window(self):
 		rows, columns = os.popen('stty size', 'r').read().split()
