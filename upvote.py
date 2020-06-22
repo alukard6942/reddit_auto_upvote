@@ -6,20 +6,29 @@ import sys
 def usage():
 	print (
 """upvote [flag] [option] 
-	-h --help              |	prints this help
-	-d --debug             |	enable debug mode
+	--help              -h |	prints this help
+	--debug             -d |	enable debug mode
+	--image             -i |	enable image mode ie. shows prewie
+	--nsfw [option]        |	[enable|disenable|only] nsfw content
+	--no-choise            |	disable up\\downvoting
+	--no-wait              |	disenable wait time
+	--collect-user         |	enable subing to users ie. u_*
 
-	l list    [file]       |	lists averige upvode/downvote/none count
-	p print   [file] [n]   |	prints last n collected posts 
-	c collect [sub] [file] |	starts collecting posts to file
-	    controls:  q       |	save and exit
+	list    [file]       l |	lists averige upvode/downvote/none count
+	print   [file] [n]   p |	prints last n collected posts 
+	collect [sub] [file] c |	starts collecting posts to file
+	
+	controls:      q       |	save and exit
 	               w       |	save
 	               e       |	exit without saving (saves each minute)
 	               s       |	skip one post
 	               l       |	clear display
 	               d       |	enable debug mode
-	[file]                 |	default in PayLoad/ 
-	                       |	for other location use absolute path
+	               i       |	enable image modea
+	               +-      |	configure image size
+	               a       |	lists averiges 
+	               f       |	shows curent configuratios
+	                        	! very badly named ! only a pet project
 	""")	
 
 def main():
@@ -27,13 +36,14 @@ def main():
 
 	r = Reddit()
 
-	r.set_choise(["[up]","[dw]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]","[no]"])
+	r.set_choise(["[up]","[dw]"])
 	# r.set_choise(["[no]"])
 	r.set_bot("bot4")
 	r.set_sub("all")
 	shift = 0
 
-	for flag in range(argc):
+	itert = iter(range(1,argc))
+	for flag in itert:
 		if (sys.argv[flag] == "--debug" or sys.argv[flag] == "-d" ):
 			r.set_debug_flag()
 			shift += 1
@@ -44,8 +54,38 @@ def main():
 
 		elif (sys.argv[flag] == "--user" or sys.argv[flag] == "-u" ):
 			r.set_bot(sys.argv[flag+1])
+			next(itert)
 			shift += 2
 
+		elif (sys.argv[flag] == "--no-choise" ):
+			r.set_choise(["[no]"])
+			shift += 1
+
+		elif (sys.argv[flag] == "--no-wait" ):
+			r.set_no_wait_time()
+			shift += 1
+
+		elif (sys.argv[flag] == "--collect-user" ):
+			r.set_collect_user()
+			shift += 1
+
+		elif (sys.argv[flag] == "--image" or sys.argv[flag] == "-i" ):
+			r.set_image_flag()
+			shift += 1
+		elif (sys.argv[flag] == "--nsfw" or sys.argv[flag] == "-NSFW" ):
+			if (sys.argv[flag +1] in ["enable", "disenable", "only", "else"]):
+				r.set_nsfw_flag(sys.argv[flag +1])
+				shift += 1
+				next(itert)
+			else: r.set_nsfw_flag()
+			shift += 1
+
+		elif (sys.argv[flag] == "--" or sys.argv[flag][0] != "-" ): 
+			break
+
+		else: 
+			print ("invalid flag",sys.argv[flag])
+			usage()
 	
 
 	if (argc > shift + 1 and (sys.argv[shift + 1] == "list" or sys.argv[shift + 1] == "l" )):
@@ -53,7 +93,11 @@ def main():
 			r.set_file(sys.argv[shift + 2])
 		else:
 			r.set_file()
-		r.list()  # to see results
+
+		if (argc > shift + 3):
+			r.list(start = int(sys.argv[shift + 3]))
+		else:
+			r.list()  # to see results		
 
 	elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1] == "p" )):
 		if (argc > shift + 2):
@@ -75,8 +119,15 @@ def main():
 			r.set_file(sys.argv[shift + 2]+".bin")
 		r.collect()  # endless loop
 
+	elif (argc > shift + 1 and (sys.argv[shift + 1] == "prototype" or sys.argv[shift + 1] == "x" )):
+		if (argc > shift + 2):
+			r.prototype (sys.argv[shift + 2])
+		else:
+			r.prototype ()		
 
-	else: usage()
+	else: 
+			print ("invalid option",sys.argv[shift + 1])
+			usage()
 
 
 if (__name__ == '__main__'):
