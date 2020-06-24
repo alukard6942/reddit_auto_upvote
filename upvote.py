@@ -66,7 +66,11 @@ def main():
 			shift += 1
 
 		elif (sys.argv[flag] == "--collect-user" ):
-			r.set_collect_user()
+			if (sys.argv[flag +1] in ["enable", "disenable", "only"]):
+				r.set_collect_user(sys.argv[flag +1])
+				shift += 1
+				next(itert)
+			else: r.set_collect_user()
 			shift += 1
 
 		elif (sys.argv[flag] == "--image" or sys.argv[flag] == "-i" ):

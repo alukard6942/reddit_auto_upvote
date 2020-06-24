@@ -57,7 +57,8 @@ class Reddit:
 		"NSFW"			: "enable",  # has to be also enabled in the account
 
 		"blacklist"		: ["wtf", "pcmasterrace"],
-		"collect_users"	: False,
+		# ["enable", "disenable", "only", "else"]
+		"collect_users"	: "disenable"
 	}
 
 	count = {
@@ -121,6 +122,7 @@ class Reddit:
 
 		try:
 			for submission in self.subreddit.stream.submissions():
+				self.count["errs"][1] += 1
 				flag = self.flag
 				line_l = self.get_window()
 				dbg = self.config["debugFlag"]
@@ -165,7 +167,13 @@ class Reddit:
 				sub = submission.subreddit
 				ssub = str(sub)
 
-				if ( ssub[:2] == "u_" and not self.config["collecg_users"]): continue
+				isuser = ssub[:2] == "u_" 
+				enable = self.config["collect_users"]
+				if (not enable == "enable"):
+					# nsfw = post.over_18
+					if(enable == "disenable" and isuser): continue
+					elif(enable == "only" and not isuser): continue
+
 
 				if (ssub in self.config["blacklist"]): continue
 
@@ -663,8 +671,8 @@ class Reddit:
 	def set_no_wait_time(self):
 		self.flag = "-"
 
-	def set_collect_user(self, bolleon = True):
-		self.config["collect_users"] = bolleon
+	def set_collect_user(self, collect = "enable"):
+		self.config["collect_users"] = collect
 
 	def clear(self):
 		self.PayLoad = []
