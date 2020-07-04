@@ -5,18 +5,29 @@ randomly upvotes poust in new and monitors their traction
 
 ```usage
 upvote [flag] [option] 
+	--help              -h |	prints this help
+	--debug             -d |	enable debug mode
+	--image             -i |	enable image mode ie. shows prewie
+	--nsfw [option]        |	[enable|disenable|only] nsfw content
+	--no-choise            |	disable up\\downvoting
+	--no-wait              |	disenable wait time
+	--collect-user         |	enable subing to users ie. u_*
 
-	-d --debug             |	enable debug mode
-
-	l list    [file]       |	lists averige upvode/downvote/none count
-	p print   [file] [n]   |	prints last n collected posts 
-	c collect [sub] [file] |	starts collecting posts to file
-	    controls:  q       |	save and exit
+	list    [file]       l |	lists averige upvode/downvote/none count
+	print   [file] [n]   p |	prints last n collected posts 
+	collect [sub] [file] c |	starts collecting posts to file
+	
+	controls:      q       |	save and exit
 	               w       |	save
 	               e       |	exit without saving (saves each minute)
 	               s       |	skip one post
 	               l       |	clear display
 	               d       |	enable debug mode
+	               i       |	enable image modea
+	               +-      |	configure image size
+	               a       |	lists averiges 
+	               f       |	shows curent configuratios
+	                        	! very badly named ! only a pet project
 ```
 
 
