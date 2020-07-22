@@ -2,17 +2,14 @@
 # alukard6942
 # 2/7/20
 
-# _/\\\________/\\\__/\\\\\\\\\\\\\____/\\\________/\\\_______/\\\\\_______/\\\\\\\\\\\\\\\__/\\\\\\\\\\\\\\\_        
-#  _\/\\\_______\/\\\_\/\\\/////////\\\_\/\\\_______\/\\\_____/\\\///\\\____\///////\\\/////__\/\\\///////////__       
-#   _\/\\\_______\/\\\_\/\\\_______\/\\\_\//\\\______/\\\____/\\\/__\///\\\________\/\\\_______\/\\\_____________      
-#    _\/\\\_______\/\\\_\/\\\\\\\\\\\\\/___\//\\\____/\\\____/\\\______\//\\\_______\/\\\_______\/\\\\\\\\\\\_____     
-#     _\/\\\_______\/\\\_\/\\\/////////______\//\\\__/\\\____\/\\\_______\/\\\_______\/\\\_______\/\\\///////______    
-#      _\/\\\_______\/\\\_\/\\\________________\//\\\/\\\_____\//\\\______/\\\________\/\\\_______\/\\\_____________   
-#       _\//\\\______/\\\__\/\\\_________________\//\\\\\_______\///\\\__/\\\__________\/\\\_______\/\\\_____________  
-#        __\///\\\\\\\\\/___\/\\\__________________\//\\\__________\///\\\\\/___________\/\\\_______\/\\\\\\\\\\\\\\\_ 
-#         ____\/////////_____\///____________________\///_____________\/////_____________\///________\///////////////__
+# ██╗   ██╗██████╗ ██╗   ██╗ ██████╗ ████████╗███████╗
+# ██║   ██║██╔══██╗██║   ██║██╔═══██╗╚══██╔══╝██╔════╝
+# ██║   ██║██████╔╝██║   ██║██║   ██║   ██║   █████╗  
+# ██║   ██║██╔═══╝ ╚██╗ ██╔╝██║   ██║   ██║   ██╔══╝  
+# ╚██████╔╝██║      ╚████╔╝ ╚██████╔╝   ██║   ███████╗
+#  ╚═════╝ ╚═╝       ╚═══╝   ╚═════╝    ╚═╝   ╚══════╝
 
-import praw
+ import praw
 import random
 import time 
 import sys
@@ -35,51 +32,14 @@ import urllib3
 from PayLoad import PayLoad
 from Counter import Count, SubDic
 from Wrapper import Wrapper
+from Config  import Config
 
 class Reddit:
-
-	config = {
-		"cvtitle"		: "upvote",
-		"wait"			: 5,
-		"lengh" 		: 5, # we have to insure all posts are new 
-		"subreddit"     : "all",
-		"file" 			: "PayLoad.bin",
-		"folder"        : "PayLoad",
-		"bot" 			: "bot1",
-		"print" 		: 10,
-		"choises"		: ["[up]","[dw]","[no]"],
-		"lastposts"     : 25,
-		"intwait"       : 15,
-		"sleep"			: 1,
-		"lsleep"		: 0,
-		"save_time"		: 15*60,
-		"debugFlag"     : False,
-		"clear"         : 50,
-		"line_len"      : 80,
-		"nsfwC"			: False,
-		"time_diff"		: 1*60*60,
-
-		"forceStream"   : True,
-
-		"dbgDir"        : False,
-		"dbgText"       : True,
-		"qOnUP"       	: False,
-		"dbgErm"       	: False,
-		"dbgTime"		: False,
-
-
-		"show_img"		: False,
-		"image_size"	: 300,
-
-		# ["enable", "disenable", "only", "else"]
-		"NSFW"			: "enable",  # has to be also enabled in the account
-
-		"blacklist"		: ["wtf", "pcmasterrace"],
-		# ["enable", "disenable", "only", "else"]
-		"collect_users"	: "disenable"
-	}
-
-	count = Count()
+	
+	# configuration handlaler
+	# also functions as a automat viz. config.get_flag
+	config = Config()
+	count  = Count()
 	# agent
 	reddit = []
 	# subreddit we are focesed on
@@ -510,18 +470,6 @@ class Reddit:
 			pass
 
 		return
-
-	def print_Config(self):
-		print (" ")
-		print ("\t-------------------------------------".ljust(62,"-"))
-		print ("\t|","seting".ljust(25), " ", "value".ljust(5))
-		print ("\t-------------------------------------".ljust(62,"-"))
-		for k in self.config:
-			s = self.config[k]
-			print("\t|",k.ljust(25), "|", str(s).ljust(5), )
-		print ("\t-------------------------------------".ljust(62,"-"))
-		print ("\t|","sum:".ljust(25)," ",len(self.config) )
-		print ("\t-------------------------------------".ljust(62,"-"))
 
 	def get_window(self):
 		rows, columns = os.popen('stty size', 'r').read().split()

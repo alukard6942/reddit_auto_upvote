@@ -2,19 +2,29 @@
 # alukard6942
 # 12/7/20
 
-# _/\\\________/\\\__/\\\\\\\\\\\\\____/\\\________/\\\_______/\\\\\_______/\\\\\\\\\\\\\\\__/\\\\\\\\\\\\\\\_        
-#  _\/\\\_______\/\\\_\/\\\/////////\\\_\/\\\_______\/\\\_____/\\\///\\\____\///////\\\/////__\/\\\///////////__       
-#   _\/\\\_______\/\\\_\/\\\_______\/\\\_\//\\\______/\\\____/\\\/__\///\\\________\/\\\_______\/\\\_____________      
-#    _\/\\\_______\/\\\_\/\\\\\\\\\\\\\/___\//\\\____/\\\____/\\\______\//\\\_______\/\\\_______\/\\\\\\\\\\\_____     
-#     _\/\\\_______\/\\\_\/\\\/////////______\//\\\__/\\\____\/\\\_______\/\\\_______\/\\\_______\/\\\///////______    
-#      _\/\\\_______\/\\\_\/\\\________________\//\\\/\\\_____\//\\\______/\\\________\/\\\_______\/\\\_____________   
-#       _\//\\\______/\\\__\/\\\_________________\//\\\\\_______\///\\\__/\\\__________\/\\\_______\/\\\_____________  
-#        __\///\\\\\\\\\/___\/\\\__________________\//\\\__________\///\\\\\/___________\/\\\_______\/\\\\\\\\\\\\\\\_ 
-#         ____\/////////_____\///____________________\///_____________\/////_____________\///________\///////////////__
-
+# ██╗   ██╗██████╗ ██╗   ██╗ ██████╗ ████████╗███████╗
+# ██║   ██║██╔══██╗██║   ██║██╔═══██╗╚══██╔══╝██╔════╝
+# ██║   ██║██████╔╝██║   ██║██║   ██║   ██║   █████╗  
+# ██║   ██║██╔═══╝ ╚██╗ ██╔╝██║   ██║   ██║   ██╔══╝  
+# ╚██████╔╝██║      ╚████╔╝ ╚██████╔╝   ██║   ███████╗
+#  ╚═════╝ ╚═╝       ╚═══╝   ╚═════╝    ╚═╝   ╚══════╝
+                                                     
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
 
 class Config:
-	config = {
+	
+	# be avere these config options are badly named becouse I am an idiot
+	# yes there is no reason for me to be so creative with how bad can i name an option
+	# FAQ: why are the options not at least commeted?
+	#		" Fuck you thats why ! "
+	#						--- the guy you now hate  
+	config = {  
 		"cvtitle"		: "upvote",
 		"wait"			: 5,
 		"lengh" 		: 5, # we have to insure all posts are new 
@@ -61,68 +71,76 @@ class Config:
 	def __init__(self, File):
 		self.File = File
 	
+	def listenLoop(self):
+		while True:
+			f = self.read_flag(True)
+			if (f in "eq"): return
+
+	envent_dic = {
+		"d" : lambda : self.set_dbg(not self.dbg),
+		
+	}
+
+
 	def read_flag(self):
-		if (not evLoop):
-			
-		else:
+		char = sys.stdin.read(1)[-1]
 
-			char = sys.stdin.read(1)[-1]
+		if (char not in "widplafLsceq+-"): 
+			return "-" # default state
 
-			if (char not in "widplafLsceq+-"): 
-				return "-"
+		elif (self.config["debugFlag"]): print ("youve preased: ", char)
 
-			elif (self.config["debugFlag"]): print ("youve preased: ", char)
+		if ( char == "d" ): 
+			self.set_dbg(not self.dbg)
+		
+		#elif (char == "q" or char == "e"):
+		#	self.PayLoad.quit_image_loop()				
 
+		elif (char == "l" or char == "L" ):
+			for i in range(self.config["clear"]): print()
+			char = "p"
 
-			if ( char == "d" ): 
-				self.config["debugFlag"] = not self.config["debugFlag"]
-			
-			elif (char == "q" or char == "e"):
-				self.PayLoad.quit_image_loop()				
+		elif (char == "i"):
+			self.set_image_flag()
+			char = self.get_flag()
 
-			elif (char == "l" or char == "L" ):
-				for i in range(self.config["clear"]): print()
-				char = "p"
-			elif (char == "i"):
-				self.set_image_flag()
-				self.flag = self.get_flag()
+		elif (char == "+"):
+			self.PayLoad.update_img_size(+10)
 
-			elif (char == "+"):
-				self.PayLoad.update_img_size(+10)
+		elif (char == "-"):
+			self.PayLoad.update_img_size(-10)
 
-			elif (char == "-"):
-				self.PayLoad.update_img_size(-10)
+		elif (char == "f"):
+			self.print_Config()
 
-			elif (char == "f"):
-				self.print_Config()
+		if (char in "Llp"):
+			self.get_window()
 
-			if (char in "Llp"):
-				self.get_window()
+		elif (char == "c"):
+			self.init = time.time()
 
-			elif (char == "c"):
-				self.init = time.time()
-
-			self.prev_flag = char
-			self.flag =  char
-			return char
+		self.prev_flag = char
+		self.Flag = char
+		return char
 
 	def __getitem__(self, key):
 		return self.config[key]	
 	def __setitem__(self, key, data):
 		self.config[key] = data
-		
+
 	def get_dbg(self):
 		return self.dbg
 	def set_dbg(self, dbg):
+		self["debugFlag"] = dbg # legacy option 
 		self.dbg = dbg
 
 	def get_flag (self,):
 		flag = self.Flag
 		if (flag in "asplLf"):
-			if(flag == "l"):
-				flag = "p"
-			else:
-				self.Flag = "-"
+		#	if(flag == "l"):
+		#		flag = "p"
+		#	else:
+			self.Flag = "-"
 		return flag
 		
 
