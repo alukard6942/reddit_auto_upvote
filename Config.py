@@ -8,14 +8,9 @@
 # ██║   ██║██╔═══╝ ╚██╗ ██╔╝██║   ██║   ██║   ██╔══╝  
 # ╚██████╔╝██║      ╚████╔╝ ╚██████╔╝   ██║   ███████╗
 #  ╚═════╝ ╚═╝       ╚═══╝   ╚═════╝    ╚═╝   ╚══════╝
-                                                     
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    
+
+import time 
+import os
 
 class Config:
 	
@@ -55,6 +50,7 @@ class Config:
 
 
 		"show_img"		: False,
+		"image_show"    : False,
 		"image_size"	: 300,
 
 		# ["enable", "disenable", "only", "else"]
@@ -67,66 +63,92 @@ class Config:
 
 	Flag = "c"
 	dbg  = False
+	init = time.time()
 
-	def __init__(self, File):
+	def __init__(self, File = None):
+		if File == None : File = self["file"]
 		self.File = File
+		self.time_last = time.time()
+		self.flag = "c"
+		self.prev_flag = "c"
+		self.init = time.time()
+		self.time_last = time.time() + self.config["intwait"]
+		self.loading_char = "|"
+
+		self.get_window()
+
+
+		try:
+			_thread.start_new_thread( 		self.listenLoop,() )
+
+		except Exception as e:
+			print ("\nError: unable to start listening thread \n\t", e)
+			self.flag  = "q"
+
 	
 	def listenLoop(self):
 		while True:
 			f = self.read_flag(True)
 			if (f in "eq"): return
 
-	envent_dic = {
-		"d" : lambda : self.set_dbg(not self.dbg),
-		
+	event_dic = {
+#		"N" : [lambda : sys.stdin.read(1)[-1].lower],			# default state 
+#		"d" : [lambda : self.set_dbg(not self.dbg)],			# debug mode
+#		"q" : [self.__quit  ],							 		# quit 
+#		"e" : [self.__quit  ],									# force quit  
+#		"l" : [self.__flag_l],									# clear display	
+#		"p" : [lambda : print("TODO: vital info")],				# print header
+#		"f" : [lambda self : print( self )],							# print contend of configs
+#		"c" : [self.__flag_c], 									# do nothing state
 	}
-
+	
+	def __quit(self):
+		raise Exception("quit")
+	
+	def __flag_c(self):
+		self.init = time.time()		  
+	def __flag_l(self):
+		for x in range(self.get_window()[1]): print ()
+		return "p"
 
 	def read_flag(self):
-		char = sys.stdin.read(1)[-1]
+		flag = self.Flag
+		if (flag not in self.event_dic):
+			flag = "N"
+		for event in self.event_dic[flag]:
+			tmp = event()
+			if tmp is not None:
+				flag = tmp
+		self.Flag = flag
+		return flag
 
-		if (char not in "widplafLsceq+-"): 
-			return "-" # default state
-
-		elif (self.config["debugFlag"]): print ("youve preased: ", char)
-
-		if ( char == "d" ): 
-			self.set_dbg(not self.dbg)
+	# return dimensions of terminal
+	def get_window(self):
+		rows, columns = os.popen('stty size', 'r').read().split()
 		
-		#elif (char == "q" or char == "e"):
-		#	self.PayLoad.quit_image_loop()				
+		columns = int(columns)-1
+		rows    = int(rows)
+		self.config["line_len"] = columns
+		self.config["clear"] = rows
 
-		elif (char == "l" or char == "L" ):
-			for i in range(self.config["clear"]): print()
-			char = "p"
-
-		elif (char == "i"):
-			self.set_image_flag()
-			char = self.get_flag()
-
-		elif (char == "+"):
-			self.PayLoad.update_img_size(+10)
-
-		elif (char == "-"):
-			self.PayLoad.update_img_size(-10)
-
-		elif (char == "f"):
-			self.print_Config()
-
-		if (char in "Llp"):
-			self.get_window()
-
-		elif (char == "c"):
-			self.init = time.time()
-
-		self.prev_flag = char
-		self.Flag = char
-		return char
+		return columns, rows 
 
 	def __getitem__(self, key):
 		return self.config[key]	
 	def __setitem__(self, key, data):
 		self.config[key] = data
+	
+	def __str__(self):
+		print (" ")
+		print ("\t-------------------------------------".ljust(62,"-"))
+		print ("\t|","seting".ljust(25), " ", "value".ljust(5))
+		print ("\t-------------------------------------".ljust(62,"-"))
+		for k in self.config:
+			s = self.config[k]
+			print("\t|",k.ljust(25), "|", str(s).ljust(5), )
+		print ("\t-------------------------------------".ljust(62,"-"))
+		print ("\t|","sum:".ljust(25)," ",len(self.config) )
+		print ("\t-------------------------------------".ljust(62,"-"))
 
 	def get_dbg(self):
 		return self.dbg

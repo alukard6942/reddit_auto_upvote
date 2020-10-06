@@ -9,7 +9,7 @@
 # ╚██████╔╝██║      ╚████╔╝ ╚██████╔╝   ██║   ███████╗
 #  ╚═════╝ ╚═╝       ╚═══╝   ╚═════╝    ╚═╝   ╚══════╝
 
- import threading
+import threading
 
 class Sem:
 	sem = threading.Semaphore()

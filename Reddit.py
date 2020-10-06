@@ -9,7 +9,7 @@
 # ╚██████╔╝██║      ╚████╔╝ ╚██████╔╝   ██║   ███████╗
 #  ╚═════╝ ╚═╝       ╚═══╝   ╚═════╝    ╚═╝   ╚══════╝
 
- import praw
+import praw
 import random
 import time 
 import sys
@@ -48,22 +48,7 @@ class Reddit:
 	PayLoad = PayLoad()
 
 	def __init__(self):
-		self.time_last = time.time()
-		self.flag = "c"
-		self.prev_flag = "c"
-		self.init = time.time()
-		self.time_last = time.time() + self.config["intwait"]
-		self.loading_char = "|"
-
-		self.get_window()
-
-
-		try:
-			_thread.start_new_thread( 		self.listenLoop,() )
-
-		except Exception as e:
-			print ("\nError: unable to start listening thread \n\t", e)
-			self.flag  = "q"
+		self.loading_char = "|"		
 
 	def prototype(self, arg = "invalid"):
 		#self.show_more_of_post_prototype(arg)
@@ -90,14 +75,11 @@ class Reddit:
 			else:
 				print("\r"+ssub.ljust(40))
 			
-
 			self.PayLoad.set_first("-no-", submission )
-
 		
 		sub_dic.write
 
 		print ("END OF PROTOTYPE")
-
 
 	def collect(self):
 		# prep work
@@ -110,7 +92,6 @@ class Reddit:
 		try:
 			_thread.start_new_thread( self.stream,() )
 			# _thread.start_new_thread( self.nice_line,() )
-			_thread.start_new_thread( self.saveLoop,() )
 		except Exception as e:
 			print ("\nError: unable to start thread\n\t", e)
 			self.flag  = "q"
@@ -120,13 +101,14 @@ class Reddit:
 
 		# event looop
 		while True:
-			if (self.flag == "w"):
+			flag = self.config.get_flag()	
+			if (flag == "w"):
 				self.PayLoad.write()
 				self.get_flag()
-			if (self.flag == "q"):
+			if (flag == "q"):
 				self.PayLoad.write()
 				break
-			if (self.flag == "e"):
+			if (flag == "e"):
 				break
 
 			self.nice_line()
@@ -138,24 +120,6 @@ class Reddit:
 		self.flag = "q"
 
 		print ("\ngood bye")
-
-	def listenLoop(self):
-		f = "a"
-		while True:
-			f = self.get_flag(True)
-			if (f in "eq"): return
-
-
-	def saveLoop(self):
-		while True:
-			self.write()
-			time.sleep(self.config["save_time"])
-			if(self.flag == "q"):
-				self.PayLoad.write()
-				break
-			if(self.flag == "e"):
-				return
-
 
 	def stream(self):
 		diff2 = time.time() 
@@ -179,81 +143,28 @@ class Reddit:
 			now = time.time()
 			self.PayLoad.append(rnd, submission)
 
-	def get_flag(self, evLoop = False):
-		if (not evLoop):
-			if (self.prev_flag in "qe"): return self.prev_flag
-			
-			else:
-				if (self.config["debugFlag"]): print (self.flag) 
-				self.flag = "-"
-				return "-"
-
-		else:
-
-			char = sys.stdin.read(1)[-1]
-
-			if (char not in "widplafLsceq+-"): 
-				return "-"
-
-			elif (self.config["debugFlag"]): print ("youve preased: ", char)
-
-
-			if ( char == "d" ): 
-				self.config["debugFlag"] = not self.config["debugFlag"]
-			
-			elif (char == "q" or char == "e"):
-				self.PayLoad.quit_image_loop()				
-
-			elif (char == "l" or char == "L" ):
-				for i in range(self.config["clear"]): print()
-				char = "p"
-			elif (char == "i"):
-				self.set_image_flag()
-				self.flag = self.get_flag()
-
-			elif (char == "+"):
-				self.PayLoad.update_img_size(+10)
-
-			elif (char == "-"):
-				self.PayLoad.update_img_size(-10)
-
-			elif (char == "f"):
-				self.print_Config()
-
-			if (char in "Llp"):
-				self.get_window()
-
-			elif (char == "c"):
-				self.init = time.time()
-
-			self.prev_flag = char
-			self.flag =  char
-			return char
-
 	def nice_line(self):
-		self.get_window()
-		line_len = self.config["line_len"]
+		col, row = self.config.get_window()
+		flag     = self.config.get_flag()
 
-		if( self.flag == "c" ):
-			print("Ima wait",round(time.time() - self.init, 4), "outa", self.config["intwait"], "\r", end = "")
-			if (time.time() - self.init > self.config["intwait"]):
+		if(flag == "c" ):
+			print("Ima wait",round(time.time() - self.config.init, 4), "outa", self.config["intwait"], "\r", end = "")
+			if (time.time() - self.config.init > self.config["intwait"]):
 				self.flag = "p"
 				self.time_last = time.time()
 
 		# headline
-		elif (self.flag == "p"):
-			print("Collecting....".ljust(line_len))
+		elif (flag == "p"):
+			print("Collecting....".ljust(col))
 			print("User      : ",self.reddit.user.me())
 			print("Subreddit : ",self.subreddit)
 			print("file      : ", self.config["file"])
-			print("t:      avg t:   choise:    title:".ljust(line_len - 5), "flag:")
-			self.flag == self.get_flag()
-
-		elif (self.flag == "a"):
+			print("t:      avg t:   choise:    title:".ljust(col - 5), "flag:")
+	
+		elif (flag == "a"):
 			print(self.count)
-			self.get_flag()
-
-		elif(self.flag != "q" and self.flag != "c" ):
+	
+		elif(flag != "q" and self.flag != "c" ):
 			# try:
 			# 	diff = time.time() - self.PayLoad[-1][2]
 			# except:
@@ -263,13 +174,13 @@ class Reddit:
 			now= "{0}s".format(str(round(diff,2))[:6]).center(6," ") 
 			avg= "{0}s".format(str(round(self.averige("time", 3, diff),2))[:6]).center(6," ") 
 			out = "\r[{0}][{2}] {1}".format(now, self.PayLoad.last() , avg)
-
-			out = self.get_aligned_string(out,self.config["line_len"]-2)	
+	
+			out = self.get_aligned_string(out, col, 2)	
 			self.messege = out		
-			print ("\r ".ljust(self.config["line_len"])+ self.loading_char + self.flag, end = "")
+			print ("\r ".ljust(col)+ self.loading_char + self.flag, end = "")
 			print ("\r" +out, end = "")
 			time.sleep(self.config["sleep"])
-
+    	
 	def list(self, time_diff = -1):
 		if (time_diff == -1): time_diff = self.config["time_diff"]
 		self.get_window()

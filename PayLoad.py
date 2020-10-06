@@ -30,15 +30,39 @@ class PayLoad:
 	
 	img = np.zeros((3,3,3), np.uint8)
 	_prev_e = None
+	flag = "-"
 
-	def __init__(self, File = "PayLoad.bin", show_img = False):
+	def __init__(self, File = None, show_img = False):
 		if (self.dbg): print ("Payload init")
+		if File == None : File = "TODO-add-config.bin"
 		self.File = File	
 		self.image_title = File
 		self.read()
 		
 		if(show_img):
 			self.start_image_loop()	
+	
+		try:
+			_thread.start_new_thread( self.saveLoop,() )
+		except Exception as e:
+			print ("\nError: unable to start thread\n\t", e)
+			self.flag  = "q"
+	
+	def __iter__(self, n = 0):
+		print("TODO: __iter__ Payload")		
+
+	def __next__(self):
+		print("TODO: __next__ Payload")
+
+	def saveLoop(self):
+		while True:
+			self.write()
+			time.sleep(10)
+			if(self.flag == "q"):
+				self.write()
+				break
+			if(self.flag == "e"):
+				return
 
 	# append to Payload
 	def append   (self, choise, post):

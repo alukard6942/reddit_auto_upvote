@@ -19,8 +19,8 @@ import math
 
 class Wrapper:
 	
-	def __init__(self, reddit):
-		self.reddit = reddit
+	def __init__(self, parent):
+		self.reddit = parent.config # TODO: rename reddit to config
 		
 	
 	def __iter__(self,):
@@ -32,7 +32,6 @@ class Wrapper:
 		for i in self.reddit.subreddit.stream.submissions():
 			print (i)
 			break 
-
 
 		self.iter = iter(self.reddit.subreddit.stream.submissions())
 		self.diff2 = time.time()
@@ -100,8 +99,3 @@ class Wrapper:
 		
 		return submission
 			
-		
-
-		
-
-
