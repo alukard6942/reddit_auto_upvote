@@ -1,9 +1,9 @@
-#!/usr/bin/python3
-
-# upvote.py
-# alukard6942
-# 2/7/20
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# File: upvote.py
+# Author: alukard <alukard@github>
+# Date: 07.02.2021
+#
 # ██╗   ██╗██████╗ ██╗   ██╗ ██████╗ ████████╗███████╗
 # ██║   ██║██╔══██╗██║   ██║██╔═══██╗╚══██╔══╝██╔════╝
 # ██║   ██║██████╔╝██║   ██║██║   ██║   ██║   █████╗  
@@ -14,10 +14,13 @@
 
 from Reddit import Reddit
 import sys
+import configparser
+import _thread
+import time
 
 
 def usage():
-	print (
+    print (
 """upvote [flag] [option] 
 	--help              -h |	prints this help
 	--debug             -d |	enable debug mode
@@ -42,110 +45,112 @@ def usage():
 	               a       |	lists averiges 
 	               f       |	shows curent configuratios
 	                        	! very badly named ! only a pet project
-	""")	
+	""")
+
+
+
+def envnt_loop(reddit, pay):
+    while (True):
+        char = sys.stdin.read(1)
+
+        print ( f"comand {char} ")
+        if (char == "q"): 
+            reddit.running = not True
+            return
+
+        if (char == "p"): 
+            print (pay)
+
+
+def nice_line(pay):
+    line_len = 80
+    diff = "none"
+    out  = "none"
+
+    while True:
+        try:
+            diff = pay[-1].time - pay[-2].time
+            out = f"{diff} {pay[-1]}"
+            out = _get_aligned_string(out, line_len-2)    
+        except: pass
+
+        print (f"\r{out}".ljust(line_len), end = "")
+        time.sleep(2)
+
+
+def _get_aligned_string(string, width):
+    string = string.ljust(width)
+    width = width -1
+    string = "{:{width}}".format(string,width=width)
+    bts = bytes(string,'utf-8')
+    string = str(bts[0:width],encoding='utf-8',errors='backslashreplace')
+    new_width = len(string) + int((width - len(string))/2)
+    if new_width!=0:
+        string = '{:{width}}'.format(str(string),width=new_width)
+    return string
+
 
 def main():
-	argc = len(sys.argv)
+    conff = configparser.ConfigParser()
+    conff.read("CONFIG.INI")
+    conff = conff["GENERAL"]
+    argc = len(sys.argv)
 
-	r = Reddit()
+    User = conff["User"]
+    Sub = conff["Sub"]
 
-	r.set_choise(["[up]","[dw]"])
-	# r.set_choise(["[no]"])
-	r.set_bot("bot4")
-	r.set_sub("all")
-	shift = 0
+    itert = iter(range(1,argc))
+    shift = 0
+    for flag in itert:
+        if (sys.argv[flag] == "--help" or sys.argv[flag] == "-h" ):
+            usage()
+            return
 
-	itert = iter(range(1,argc))
-	for flag in itert:
-		if (sys.argv[flag] == "--debug" or sys.argv[flag] == "-d" ):
-			r.set_debug_flag()
-			shift += 1
+        elif (sys.argv[flag] == "--user" or sys.argv[flag] == "-u" ):
+            User = sys.argv[flag+1]
+            next(itert)
+            shift += 2
 
-		elif (sys.argv[flag] == "--help" or sys.argv[flag] == "-h" ):
-			usage()
-			return
+        elif (sys.argv[flag] == "--collect-user" ):
+            pass
 
-		elif (sys.argv[flag] == "--user" or sys.argv[flag] == "-u" ):
-			r.set_bot(sys.argv[flag+1])
-			next(itert)
-			shift += 2
+        elif (sys.argv[flag] == "--image" or sys.argv[flag] == "-i" ):
+            pass
 
-		elif (sys.argv[flag] == "--no-choise" ):
-			r.set_choise(["[no]"])
-			shift += 1
+        elif (sys.argv[flag] == "--nsfw" or sys.argv[flag] == "-NSFW" ):
+            pass
 
-		elif (sys.argv[flag] == "--no-wait" ):
-			r.set_no_wait_time()
-			shift += 1
+        elif (sys.argv[flag] == "--" or sys.argv[flag][0] != "-" ): 
+            break
 
-		elif (sys.argv[flag] == "--collect-user" ):
-			if (sys.argv[flag +1] in ["enable", "disenable", "only"]):
-				r.set_collect_user(sys.argv[flag +1])
-				shift += 1
-				next(itert)
-			else: r.set_collect_user()
-			shift += 1
+        else: 
+            print ("invalid flag",sys.argv[flag])
+            usage()
 
-		elif (sys.argv[flag] == "--image" or sys.argv[flag] == "-i" ):
-			r.set_image_flag()
-			shift += 1
-		elif (sys.argv[flag] == "--nsfw" or sys.argv[flag] == "-NSFW" ):
-			if (sys.argv[flag +1] in ["enable", "disenable", "only", "else"]):
-				r.set_nsfw_flag(sys.argv[flag +1])
-				shift += 1
-				next(itert)
-			else: r.set_nsfw_flag()
-			shift += 1
 
-		elif (sys.argv[flag] == "--" or sys.argv[flag][0] != "-" ): 
-			break
+    r = Reddit(User)
 
-		else: 
-			print ("invalid flag",sys.argv[flag])
-			usage()
-	
 
-	if (argc > shift + 1 and (sys.argv[shift + 1] == "list" or sys.argv[shift + 1] == "l" )):
-		if (argc > shift + 2):
-			r.set_file(sys.argv[shift + 2])
-		else:
-			r.set_file()
+    if (argc > shift + 1 and (sys.argv[shift + 1] == "list" or sys.argv[shift + 1] == "l" )):
+        pass
 
-		if (argc > shift + 3):
-			r.list(start = int(sys.argv[shift + 3]))
-		else:
-			r.list()  # to see results		
+    elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1] == "p" )):
+        pass
 
-	elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1] == "p" )):
-		if (argc > shift + 2):
-			r.set_file(sys.argv[shift + 2])
-		else:
-			r.set_file()
+    elif (argc > shift + 1 and (sys.argv[shift + 1] == "collect" or sys.argv[shift + 1] == "c" )):
+        _thread.start_new_thread( envnt_loop,(r, r.PayLoad) )
+        _thread.start_new_thread( nice_line, (r.PayLoad,) )
+        r.updown(Sub)
+        r.PayLoad.write()
 
-		if (argc > shift + 3):
-			r.print(int(sys.argv[shift + 3]))
-		else:
-			r.print()  # to see results
-	
-	elif (argc > shift + 1 and (sys.argv[shift + 1] == "collect" or sys.argv[shift + 1] == "c" )):
-		if (argc > shift + 2):
-			r.set_sub (sys.argv[shift + 2])
-		if (argc > shift + 3): # file
-			r.set_file(sys.argv[shift + 3])
-		else:
-			r.set_file(sys.argv[shift + 2]+".bin")
-		r.collect()  # endless loop
 
-	elif (argc > shift + 1 and (sys.argv[shift + 1] == "prototype" or sys.argv[shift + 1] == "x" )):
-		if (argc > shift + 2):
-			r.prototype (sys.argv[shift + 2])
-		else:
-			r.prototype ()		
+    elif (argc > shift + 1 and (sys.argv[shift + 1] == "prototype" or sys.argv[shift + 1] == "x" )):
+        pass
 
-	else: 
-			print ("invalid option",sys.argv[shift + 1])
-			usage()
+    else: 
+        print ("invalid option",sys.argv[shift + 1])
+        usage()
 
 
 if (__name__ == '__main__'):
-	main()
+    main()
