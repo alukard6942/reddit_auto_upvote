@@ -38,7 +38,7 @@ class PayLoad ( list ) :
     def write(self):
         with open(self.database, "w") as f:
             for pay in self:
-                f.write(pay)
+                f.write(str(pay))
 
 
     def __str__(self, n = 20):
