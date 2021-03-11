@@ -12,12 +12,26 @@
 #  ╚═════╝ ╚═╝       ╚═══╝   ╚═════╝    ╚═╝   ╚══════╝
 
 
-from Reddit import Reddit
-import sys
 import configparser
-import _thread
+import sys
 import time
+import functools
+import threading
 
+import praw
+
+from Display import Display
+from Reddit import Reddit
+
+top = []
+def asyncf(f):
+    ''' This decorator executes a function in a Thread'''
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        thr = threading.Thread(target=f, args=args, kwargs=kwargs)
+        thr.start()
+        top.append(thr)
+    return wrapper
 
 def usage():
     print (
@@ -46,21 +60,18 @@ def usage():
 	               f       |	shows curent configuratios
 	                        	! very badly named ! only a pet project
 	""")
+def help():
+    usage()
+    exit(0)
 
-
-
-def envnt_loop(reddit, pay):
-    while (True):
-        char = sys.stdin.read(1)
-
-        print ( f"comand {char} ")
-        if (char == "q"): 
-            reddit.running = not True
-            return
-
-        if (char == "p"): 
-            print (pay)
-
+@asyncf
+def display(pay):
+    run = True
+    while run:
+        post = pay[-1]
+        try: d.show(post)
+        except Exception as e: 
+            print(e, post, d.url(post))
 
 def nice_line(pay):
     line_len = 80
@@ -69,8 +80,9 @@ def nice_line(pay):
 
     while True:
         try:
-            diff = pay[-1].time - pay[-2].time
-            out = f"{diff} {pay[-1]}"
+            diff = round(pay[-1].time - pay[-2].time)
+            top = pay[-1].title
+            out = f"{diff} {top}"
             out = _get_aligned_string(out, line_len-2)    
         except: pass
 
@@ -90,67 +102,60 @@ def _get_aligned_string(string, width):
     return string
 
 
-def main():
-    conff = configparser.ConfigParser()
-    conff.read("CONFIG.INI")
-    conff = conff["GENERAL"]
-    argc = len(sys.argv)
+conff = configparser.ConfigParser()
+conff.read("config.ini")
+conff = conff["GENERAL"]
+argc = len(sys.argv)
 
-    User = conff["User"]
-    Sub = conff["Sub"]
+User = conff["User"]
+Sub = conff["Sub"]
 
-    itert = iter(range(1,argc))
-    shift = 0
-    for flag in itert:
-        if (sys.argv[flag] == "--help" or sys.argv[flag] == "-h" ):
-            usage()
-            return
+itert = iter(range(1,argc))
+shift = 0
+for flag in itert:
+    if (sys.argv[flag] == "--help" or sys.argv[flag] == "-h" ):
+        usage()
+        exit(0)
 
-        elif (sys.argv[flag] == "--user" or sys.argv[flag] == "-u" ):
-            User = sys.argv[flag+1]
-            next(itert)
-            shift += 2
+    elif (sys.argv[flag] == "--user" or sys.argv[flag] == "-u" ):
+        User = sys.argv[flag+1]
+        next(itert)
+        shift += 2
 
-        elif (sys.argv[flag] == "--collect-user" ):
-            pass
-
-        elif (sys.argv[flag] == "--image" or sys.argv[flag] == "-i" ):
-            pass
-
-        elif (sys.argv[flag] == "--nsfw" or sys.argv[flag] == "-NSFW" ):
-            pass
-
-        elif (sys.argv[flag] == "--" or sys.argv[flag][0] != "-" ): 
-            break
-
-        else: 
-            print ("invalid flag",sys.argv[flag])
-            usage()
-
-
-    r = Reddit(User)
-
-
-    if (argc > shift + 1 and (sys.argv[shift + 1] == "list" or sys.argv[shift + 1] == "l" )):
+    elif (sys.argv[flag] == "--collect-user" ):
         pass
 
-    elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1] == "p" )):
+    elif (sys.argv[flag] == "--image" or sys.argv[flag] == "-i" ):
         pass
 
-    elif (argc > shift + 1 and (sys.argv[shift + 1] == "collect" or sys.argv[shift + 1] == "c" )):
-        _thread.start_new_thread( envnt_loop,(r, r.PayLoad) )
-        _thread.start_new_thread( nice_line, (r.PayLoad,) )
-        r.updown(Sub)
-        r.PayLoad.write()
-
-
-    elif (argc > shift + 1 and (sys.argv[shift + 1] == "prototype" or sys.argv[shift + 1] == "x" )):
+    elif (sys.argv[flag] == "--nsfw" or sys.argv[flag] == "-NSFW" ):
         pass
+
+    elif (sys.argv[flag] == "--" or sys.argv[flag][0] != "-" ): 
+        break
 
     else: 
-        print ("invalid option",sys.argv[shift + 1])
+        print ("invalid flag",sys.argv[flag])
         usage()
 
 
-if (__name__ == '__main__'):
-    main()
+r = Reddit(User)
+
+bot = 'bot1'
+d = Display(praw.Reddit(bot , user_agent=bot))
+
+
+if (argc > shift + 1 and (sys.argv[shift + 1] == "list" or sys.argv[shift + 1] == "l" )):
+    pass
+
+elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1] == "p" )):
+    pass
+
+elif (argc > shift + 1 and (sys.argv[shift + 1] == "collect" or sys.argv[shift + 1] == "c" )):
+    payload = r.updown(Sub)
+    payload.write()
+
+
+elif (argc > shift + 1 and (sys.argv[shift + 1] == "prototype" or sys.argv[shift + 1] == "x" )):
+    pass
+

@@ -25,7 +25,7 @@ class PayLoad ( list ) :
     def __init__(self, File = None):
         super().__init__()
 
-        self.conf.read("CONFIG.INI")
+        self.conf.read("config.ini")
         self.time_last = time.time()
 
         # may specifi file 
@@ -33,12 +33,12 @@ class PayLoad ( list ) :
         else:        self.database = str(self.conf["PayLoad"]["default_file"])
 
     def append(self, post, meta="----"):
-        super().append(Element( post, meta ))
+        super().append(Element(post, meta ))
 
     def write(self):
         with open(self.database, "w") as f:
             for pay in self:
-                f.write(str(pay))
+                f.write(str(pay)+"\n")
 
 
     def __str__(self, n = 20):
@@ -60,4 +60,3 @@ class Element(namedtuple('Element', ['time', 'post', 'title', 'meta'])):
 
     def __str__(self, ):
         return f"{self.time} {self.post} {self.meta} {self.title}" 
-

@@ -1,6 +1,4 @@
 # reddit\_auto\_upvote
-
-
 [//]: # ( ██╗   ██╗██████╗ ██╗   ██╗ ██████╗ ████████╗███████╗ )
 [//]: # ( ██║   ██║██╔══██╗██║   ██║██╔═══██╗╚══██╔══╝██╔════╝ )
 [//]: # ( ██║   ██║██████╔╝██║   ██║██║   ██║   ██║   █████╗   )
@@ -10,9 +8,18 @@
 
 randomly upvotes poust in new and monitors their traction
 
+## fylosofy
+
+becose of need for interactivnes, giving the user a console is the best option
+genral usage:
+```sh
+python3 -i upvote.py
+```
+
+
 ## Usage:
 
-```usage
+```help
 upvote [flag] [option] 
 	--help              -h |	prints this help
 	--debug             -d |	enable debug mode
@@ -39,39 +46,14 @@ upvote [flag] [option]
 	                        	! very badly named ! only a pet project
 ```
 
+### primary functions:
+
+	collect      				# starts procesess of collecting data
+
+	list						# summary of collected data
+
+	print						# prints top of curent Payload
 
 
 ## prawn Documentation
  [writing reddit bot] (https://praw.readthedocs.io/en/v3.6.0/pages/writing_a_bot.html)
-
-
-
-
-## Reddit.py
-	
-
-### primary functions:
-	read (file = default file)  # reads payloade form file and sets default file
-
-	write (file = default file) # writes payloade to file
-
-	collect ()					# starts procesess of collecting data
-
-	list()						# summary of collected data
-
-	print()						# prints top of curent Payload
-
-
-### set funtions:
-	
-	set_debug_flag()
-	set_choise(choses = ["[up]","[dw]","[no]"] )
-	set_bot(bot = "bot1")
-	set_sub(subreddit = "all")
-
-### \*.bin files
-+ pickled list of tracked posts 
-
-		[ 	choise 	# "[up]" upvoted / "[dw]" downvoted / "[no]" no action
-			postId 	# id of a post
-			time  ]	# time when choise was made
