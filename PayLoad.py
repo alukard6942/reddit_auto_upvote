@@ -15,12 +15,9 @@ import time
 import configparser
 from collections import namedtuple
 
-from Counter import Count
-
 class PayLoad ( list ) :
 
     conf = configparser.ConfigParser()
-    count = Count()
 
     def __init__(self, File = None):
         super().__init__()
@@ -60,3 +57,4 @@ class Element(namedtuple('Element', ['time', 'post', 'title', 'meta'])):
 
     def __str__(self, ):
         return f"{self.time} {self.post} {self.meta} {self.title}" 
+

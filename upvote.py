@@ -35,8 +35,12 @@ def asyncf(f):
 
 def usage():
     print (
-"""upvote [flag]
-	--help              -h |	prints this help
+"""upvote [flag] command [subreddit]
+	--help  | h         prints this help
+
+    commands:
+        collect | c 
+            
 """)
 
 def help():
