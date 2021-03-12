@@ -35,31 +35,10 @@ def asyncf(f):
 
 def usage():
     print (
-"""upvote [flag] [option] 
+"""upvote [flag]
 	--help              -h |	prints this help
-	--debug             -d |	enable debug mode
-	--image             -i |	enable image mode ie. shows prewie
-	--nsfw [option]        |	[enable|disenable|only] nsfw content
-	--no-choise            |	disable up\\downvoting
-	--no-wait              |	disenable wait time
-	--collect-user         |	enable subing to users ie. u_*
+""")
 
-	list    [file]       l |	lists averige upvode/downvote/none count
-	print   [file] [n]   p |	prints last n collected posts 
-	collect [sub] [file] c |	starts collecting posts to file
-	
-	controls:      q       |	save and exit
-	               w       |	save
-	               e       |	exit without saving (saves each minute)
-	               s       |	skip one post
-	               l       |	clear display
-	               d       |	enable debug mode
-	               i       |	enable image modea
-	               +-      |	configure image size
-	               a       |	lists averiges 
-	               f       |	shows curent configuratios
-	                        	! very badly named ! only a pet project
-	""")
 def help():
     usage()
     exit(0)
@@ -68,10 +47,12 @@ def help():
 def display(pay):
     run = True
     while run:
-        post = pay[-1]
-        try: d.show(post)
+        try: 
+            post = pay[-1]
+            d.show(post)
         except Exception as e: 
-            print(e, post, d.url(post))
+            pass
+            #print(e, post, d.url(post))
 
 def nice_line(pay):
     line_len = 80
@@ -87,7 +68,10 @@ def nice_line(pay):
         except: pass
 
         print (f"\r{out}".ljust(line_len), end = "")
+        pay.write()
         time.sleep(2)
+
+    exit(0)
 
 
 def _get_aligned_string(string, width):
@@ -153,8 +137,8 @@ elif (argc > shift + 1 and (sys.argv[shift + 1] == "print" or sys.argv[shift + 1
 
 elif (argc > shift + 1 and (sys.argv[shift + 1] == "collect" or sys.argv[shift + 1] == "c" )):
     payload = r.updown(Sub)
-    payload.write()
-
+    display(payload)
+    nice_line(payload)
 
 elif (argc > shift + 1 and (sys.argv[shift + 1] == "prototype" or sys.argv[shift + 1] == "x" )):
     pass
